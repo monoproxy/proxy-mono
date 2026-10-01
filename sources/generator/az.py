@@ -145,7 +145,7 @@ def m_chevron(s, xL, k=0.35):
     pts += [m((xi, 0)), m((xL, 0)), m((xL, 700)), m((xi, 700))] + [(cx, v)] * 4 + [(xi, 700), (xL, 700)]
     return [[(x, y, 'line') for x, y in pts]]
 
-def unify_dots(extra):
+def unify_dots(extra, s=None):
     """Every square dot is the period's dot (Danny, 30 Sep 2026: "the square has to be the same size"):
     . : ; ! ? i j. A dot = a small contour of few points within 0.5-1.8x the period's size. Dots that
     sit on the baseline stay on it; the rest keep their centre. Works on Geist-unit recordings."""
@@ -160,19 +160,40 @@ def unify_dots(extra):
         return min(xs), min(ys), max(xs), max(ys)
     per = contours(extra['uni002E'][1])
     px0, py0, px1, py1 = bbox(per[0]); dw, dh = px1 - px0, py1 - py0
-    for cp in '.:;!?ij\u00b7\u2026':
+    ow, oh = dw, dh                              # detection uses the period's own size
+    if s: dw = dh = s                            # every dot is a stem-square (Danny, 1 Oct 2026)
+    def stem_cx(ops):
+        # centre of the vertical stem, measured across at y = 250 (i and j: the dot sits on the stem's axis)
+        from shapely.geometry import Polygon as SP, LineString
+        rings = []
+        for c in contours(ops):
+            pts = [p for _, ps in c for p in ps]
+            if len(pts) > 12: rings.append(SP(pts).buffer(0))
+        if not rings: return None
+        cut = LineString([(-500, 250), (1500, 250)]).intersection(max(rings, key=lambda g: g.area))
+        segs = [cut] if cut.geom_type == 'LineString' else list(cut.geoms)
+        seg = max(segs, key=lambda g: g.length)
+        return (seg.bounds[0] + seg.bounds[2]) / 2
+    for cp in '.:;!?ij,\u00b7\u2026':
         name = 'uni%04X' % ord(cp)
         if extra[name][0] != 'rec': continue
         new = []
         for c in contours(extra[name][1]):
             x0, y0, x1, y1 = bbox(c); w, h = x1 - x0, y1 - y0
             npts = sum(len(pts) for _, pts in c)
-            if npts <= 12 and 0.5 * dw <= w <= 1.8 * dw and 0.5 * dh <= h <= 1.8 * dh:
+            if npts <= 12 and 0.5 * ow <= w <= 1.8 * ow and 0.5 * oh <= h <= 1.8 * oh:
                 cx = (x0 + x1) / 2
-                by = py0 if abs(y0 - py0) < 0.3 * dh else (y0 + y1) / 2 - dh / 2
+                if cp in 'ij' and s:
+                    cx = stem_cx(extra[name][1]) or cx
+                by = py0 if abs(y0 - py0) < 0.3 * oh else (y0 + y1) / 2 - dh / 2
                 a, b = cx - dw / 2, cx + dw / 2
                 c = [('moveTo', [(a, by)]), ('lineTo', [(a, by + dh)]), ('lineTo', [(b, by + dh)]),
                      ('lineTo', [(b, by)]), ('closePath', [])]          # clockwise: TrueType outer
+            elif s and cp in ',;' and npts > 4:
+                # the comma's head matched the old period; scale the comma about its foot on the
+                # baseline so its head stays the same size as the (now stem-square) dot
+                f = dw / ow; cxx = (x0 + x1) / 2
+                c = [(op, [(cxx + (p[0] - cxx) * f, p[1] * f) for p in pts]) for op, pts in c]
             new.extend(c)
         extra[name] = ('rec', new)
 
@@ -644,7 +665,7 @@ def build(stem, out, PLAIN):
             extra[name] = ('poly', embolden(ops, short / 2))
         else:
             extra[name] = ('rec', ops)
-    unify_dots(extra)
+    unify_dots(extra, stem / gsc)
     glyphs.update(extra)
     order = ['.notdef', 'space'] + [chr(c) for c in range(65, 91)] + sorted(extra)
     fb = FontBuilder(1000, isTTF=True); fb.setupGlyphOrder(order)
