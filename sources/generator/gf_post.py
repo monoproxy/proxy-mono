@@ -161,7 +161,44 @@ def auxiliary(font):
     yb0, yb1 = (min(ys) - 4, max(y for y in ys if y < 680) + 4) if ys else (0, -1)
     lf = [([((x0 if x < x0 else x1 if x > x1 else x) if yb0 <= y <= yb1 else x, y) for x, y in pts], fl) for pts, fl in cs('uni0066')]
     add_glyph(font, 'uni017F', from_contours(lf), 0x017F)
-    # Ezh (Ʒ ʒ Ǯ ǯ) is left out: no upstream draws it, so it needs drawing
+    ezh(font)
+
+def ezh(font):
+    """Ezh Ʒ ʒ Ǯ ǯ (Finnish/Skolt Sami, shape_languages). No upstream draws it, so it is the font's own 3
+    with the upper bowl turned into a flat bar at the cap and a diagonal one stem thick down to the 3's
+    middle: the same points, moved, so the masters stay compatible. ʒ is Ʒ dropped by the 200 between
+    cap/x-height and baseline/descender; the carons come from Ǎ and ǎ."""
+    import math
+    glyf = font['glyf']
+    (pts, fl), = contours(glyf['uni0033'])
+    p = [list(x) for x in pts]
+    s = runs(font, 'H', 200)[0]; s = s[1] - s[0]   # H stem, below the crossbar
+    L, R, T = glyf['Z'].xMin, glyf['Z'].xMax, 800
+    jx, jy = p[17]                                   # inner foot of the diagonal (the 3's middle, top left)
+    vx, vy = R - jx, T - jy
+    th = math.atan2(vy, vx) + math.asin(min(1, s / math.hypot(vx, vy)))   # edges s apart, perpendicular
+    k = 1 / math.tan(th)
+    rin = jx + (T - s - jy) * k                      # inner corner: diagonal meets the bar's underside
+    def lerp(a, b, n, i): return [a[0] + (b[0] - a[0]) * i / n, a[1] + (b[1] - a[1]) * i / n]
+    # inner edge 17 -> 25 along the diagonal, 25 -> 28 along the bar's underside
+    for i in range(18, 26): p[i] = lerp([jx, jy], [rin, T - s], 8, i - 17)
+    for i in range(26, 29): p[i] = lerp([rin, T - s], [L, T - s], 3, i - 25)
+    # outer edge 28/29 up to the cap, 29 -> 36 along the bar's top, 36 -> 39 down the diagonal
+    for i in range(29, 37): p[i] = lerp([L, T], [R, T], 7, i - 29)
+    by = p[40][1]
+    xo = R - (T - by) * k
+    p[40][0] = max(p[40][0], xo)
+    for i in range(37, 40): p[i] = lerp([R, T], [xo, by], 3, i - 36)
+    cap = from_contours([([tuple(map(round, x)) for x in p], fl)])
+    add_glyph(font, 'uni01B7', cap, 0x01B7)
+    lc = contours(cap)
+    add_glyph(font, 'uni0292', from_contours(shifted(lc, 0, -200)), 0x0292)
+    glyf = font['glyf']
+    def mark_of(n, ymin): return [c for c in contours(glyf[n]) if ybox(c[0])[1] >= ymin]
+    def centre(c): b = ybox([q for pts, _ in c for q in pts]); return (b[0] + b[2]) / 2
+    for base, src, ymin, cp in (('uni01B7', 'uni01CD', 801, 0x01EE), ('uni0292', 'uni01CE', 601, 0x01EF)):
+        m = mark_of(src, ymin); b = contours(glyf[base])
+        add_glyph(font, 'uni%04X' % cp, from_contours(b + shifted(m, centre(b) - centre(m), 0)), cp)
 
 def carons(font):
     glyf = font['glyf']
