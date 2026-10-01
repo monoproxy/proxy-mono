@@ -7,6 +7,8 @@ from fontTools.ttLib import TTFont
 from fontTools.designspaceLib import DesignSpaceDocument, AxisDescriptor, SourceDescriptor
 from fontTools import varLib
 
+SLANT = float(os.environ.get('SLANT', '0'))   # degrees; 0 = weight axis only (the Google Fonts build)
+import math, copy
 STYLES = ['Thin', 'ExtraLight', 'Light', 'Regular', 'Medium', 'SemiBold', 'Bold', 'ExtraBold', 'Black']
 STEMS = [46, 68, 96, 110, 126, 144, 162, 180, 197]
 
@@ -38,10 +40,26 @@ def main(src, out):
     ds = DesignSpaceDocument()
     ax = AxisDescriptor(); ax.tag = 'wght'; ax.name = 'Weight'; ax.minimum = 100; ax.default = 400; ax.maximum = 900
     ds.addAxis(ax)
+    if SLANT:
+        sl = AxisDescriptor(); sl.tag = 'slnt'; sl.name = 'Slant'; sl.minimum = -SLANT; sl.default = 0; sl.maximum = 0
+        ds.addAxis(sl)
     for i, f in enumerate(F):
-        sd = SourceDescriptor(); sd.font = f; sd.name = STYLES[i]; sd.location = {'Weight': (i + 1) * 100}
+        sd = SourceDescriptor(); sd.font = f; sd.name = STYLES[i]
+        sd.location = {'Weight': (i + 1) * 100, **({'Slant': 0} if SLANT else {})}
         sd.filename = paths[i]; ds.addSource(sd)
+        if not SLANT: continue
+        # slanted master: every outline sheared about half the cap height, so the letter leans without
+        # leaving its 700 cell (an oblique, not a drawn italic)
+        k = math.tan(math.radians(SLANT)); fs = copy.deepcopy(f); gl = fs['glyf']
+        for g in fs.getGlyphOrder():
+            gg = gl[g]
+            if gg.numberOfContours > 0:
+                gg.coordinates = type(gg.coordinates)([(round(x + (y - 400) * k), y) for x, y in gg.coordinates])
+                gg.recalcBounds(gl); fs['hmtx'][g] = (700, gg.xMin)
+        sd = SourceDescriptor(); sd.font = fs; sd.name = STYLES[i] + ' Slanted'
+        sd.location = {'Weight': (i + 1) * 100, 'Slant': -SLANT}; sd.filename = paths[i]; ds.addSource(sd)
     vf, _, _ = varLib.build(ds, exclude=['MVAR'])
+    vf['post'].italicAngle = 0
     # names: one family, "Regular" default, STAT for the named weights
     name = vf['name']
     for rec in list(name.names):
@@ -55,13 +73,15 @@ def main(src, out):
     fvar.instances = []
     from fontTools.ttLib.tables._f_v_a_r import NamedInstance
     for i, s in enumerate(STYLES):
-        ni = NamedInstance(); ni.coordinates = {'wght': (i + 1) * 100}
+        ni = NamedInstance(); ni.coordinates = {'wght': (i + 1) * 100, **({'slnt': 0} if SLANT else {})}
         ni.subfamilyNameID = name.addMultilingualName({'en': s}, mac=False)
         ni.postscriptNameID = name.addMultilingualName({'en': f'ProxyMono-{s}'}, mac=False)
         fvar.instances.append(ni)
     buildStatTable(vf, [{'tag': 'wght', 'name': 'Weight', 'values': [
         {'value': (i + 1) * 100, 'name': s, **({'flags': 2, 'linkedValue': 700} if s == 'Regular' else {})}
-        for i, s in enumerate(STYLES)]}])
+        for i, s in enumerate(STYLES)]}] + ([
+        {'tag': 'slnt', 'name': 'Slant', 'values': [{'value': 0, 'name': 'Upright', 'flags': 2},
+                                                   {'value': -SLANT, 'name': 'Slanted'}]}] if SLANT else []))
     vf['OS/2'].usWeightClass = 400; vf['OS/2'].fsSelection = (1 << 7) | (1 << 6); vf['head'].macStyle = 0
     vf.save(out)
     w = TTFont(out); w.flavor = 'woff2'; w.save(out[:-4] + '.woff2')

@@ -197,6 +197,92 @@ def unify_dots(extra, s=None):
             new.extend(c)
         extra[name] = ('rec', new)
 
+CROTCH_GLYPHS = 'nmhru'
+XH_G = 532   # x-height in Geist units (600 / (800/710))
+CROTCH = 0.5   # how much of the notch where an arch leaves a stem (n m h r u...) is filled in
+
+def shallow_crotch(ops, k=CROTCH):
+    """Geist's arches leave the stem low, cutting a deep V notch between the stem's edge and the arch's
+    outer curve (Danny, 1 Oct 2026: "reduce the v gap, keep the stem width"). The notch is the pattern
+    lineTo(stem top) -> lineTo(A, straight down the stem's edge) -> lineTo(B, a step back onto the arch)
+    -> curve. Lift A, B and the curve's first handle by k of the notch depth: the stem edge is only
+    extended, never moved, so the stem keeps its width. Works the same upside down (u)."""
+    ops = [(op, [tuple(p) for p in pts]) for op, pts in ops]
+    for i in range(1, len(ops) - 2):
+        (o0, p0), (o1, p1), (o2, p2), (o3, p3) = ops[i - 1], ops[i], ops[i + 1], ops[i + 2]
+        if o1 != 'lineTo' or o2 != 'lineTo' or not p0 or o3 not in ('qCurveTo', 'curveTo'):
+            continue
+        top, a, b = p0[-1], p1[0], p2[0]
+        # measured from the arch's height, not the stem's top: on h the stem runs on up to the ascender
+        ref = min(top[1], XH_G) if top[1] > a[1] else top[1]
+        depth = ref - a[1]
+        if abs(top[0] - a[0]) > 60 or abs(depth) < 60 or abs(b[1] - a[1]) > 30 or abs(b[0] - a[0]) > 40:
+            continue
+        d = k * depth
+        # the notch's stem edge slants into the stem (Geist cuts 12-60 units in at the join), so the
+        # stem is thinner above the arch than below it. Put the edge back on the stem's true edge: the
+        # nearest on-curve point below the join on the same side, within reach.
+        j0 = max(q for q in range(i + 1) if ops[q][0] == 'moveTo')
+        j1 = min(q for q in range(i, len(ops)) if ops[q][0] in ('closePath', 'endPath'))
+        below = [pt for _, ps in ops[j0:j1] for pt in ps[-1:] if (pt[1] < a[1] - 40) == (depth > 0) and
+                 abs(pt[1] - a[1]) > 40 and 0 <= (pt[0] - a[0]) * (1 if b[0] < a[0] else -1) < 90]
+        dx = 0.0
+        if below:
+            edge = min(below, key=lambda pt: abs(pt[0] - a[0]))[0]
+            dx = edge - a[0]
+            ops[i - 1] = (o0, p0[:-1] + [(edge, top[1])])
+        ops[i] = (o1, [(a[0] + dx, a[1] + d)])
+        ops[i + 1] = (o2, [(b[0] + dx, b[1] + d)])
+        # squash the arch's outer curve toward its far end instead of lifting one handle: the curve
+        # keeps its shape (no kink) and simply starts higher up the stem
+        end = p3[-1][1]; y0, y1 = b[1], b[1] + d
+        f = (end - y1) / (end - y0) if end != y0 else 1
+        ops[i + 2] = (o3, [(q[0], end - (end - q[1]) * f) for q in p3[:-1]] + [p3[-1]])
+    return ops
+
+ARCH_GLYPHS = ''   # arch redraw reverted (Danny, 1 Oct 2026: "looks weird, revert")
+
+def even_counter(ops):
+    """n/h arch, one stem thick all the way over (Danny, 1 Oct 2026: thick at the shoulders, thin at
+    the top, "make them more even"). The outer and inner curves become two concentric half-ellipses,
+    the outer one exactly one stem bigger in both radii, centred on the counter. The outer keeps its
+    overshoot height; the inner top drops to one stem below it. On the left the outer curve starts
+    where its ellipse meets the stem (the crotch), which also sets how deep the notch is."""
+    import math
+    t = math.tan(math.pi / 8)
+    ops = [(op, [tuple(p) for p in pts]) for op, pts in ops]
+    for i in range(6, len(ops) - 2):
+        (o0, p0), (o1, p1), (o2, p2) = ops[i], ops[i + 1], ops[i + 2]
+        if o0 != 'lineTo' or o1 != 'qCurveTo' or o2 != 'qCurveTo':
+            continue
+        R, top, L = p0[0], p1[-1], p2[-1]
+        if top[1] < R[1] + 80 or abs(L[1] - R[1]) > 15 or L[0] > R[0] - 100:
+            continue
+        kinds = [ops[i - k][0] for k in (6, 5, 4, 3, 2, 1)]
+        if kinds != ['lineTo', 'lineTo', 'qCurveTo', 'qCurveTo', 'lineTo', 'lineTo']:
+            break
+        A, B = ops[i - 6][1][0], ops[i - 5][1][0]
+        oR = ops[i - 3][1][-1][0]
+        Tout = max(q[1] for q in ops[i - 4][1] + ops[i - 3][1])
+        sw = oR - R[0]                                   # the right stem, i.e. the stem
+        ys = R[1]; xc = (R[0] + L[0]) / 2
+        rxi = (R[0] - L[0]) / 2; rxo = rxi + sw
+        ryo = Tout - ys; ryi = ryo - sw; Tin = ys + ryi
+        # outer, left: from the crotch on the ellipse up to the top, one quad on the tangents
+        u = min(max((xc - B[0]) / rxo, -1), 1); th = math.acos(u)
+        By = ys + ryo * math.sin(th)
+        lam = (Tout - By) / (ryo * math.cos(th)) if math.cos(th) > 1e-6 else 0
+        cx = B[0] + lam * rxo * math.sin(th)
+        step = B[1] - A[1]
+        ops[i - 6] = ('lineTo', [(A[0], By - step)])
+        ops[i - 5] = ('lineTo', [(B[0], By)])
+        ops[i - 4] = ('qCurveTo', [(min(cx, xc), Tout), (xc, Tout)])
+        ops[i - 3] = ('qCurveTo', [(xc + rxo * t, Tout), (oR, ys + ryo * t), (oR, ys)])
+        ops[i + 1] = ('qCurveTo', [(R[0], ys + ryi * t), (xc + rxi * t, Tin), (xc, Tin)])
+        ops[i + 2] = ('qCurveTo', [(xc - rxi * t, Tin), (L[0], ys + ryi * t), (L[0], ys)])
+        break
+    return ops
+
 def embolden(ops, d):
     """Offset a recorded TrueType outline outward by up to d on every side (thickens every stroke by
     2d), backing off until no counter closes. Returns rings, TrueType-oriented (outer clockwise)."""
@@ -661,6 +747,10 @@ def build(stem, out, PLAIN):
             kg = min(max((target_g - wlo) / (whi - wlo), -0.3), 1.5)
             short = target_g - (wlo + kg * (whi - wlo))
         ops = [(op, [(a[0] + kg * (b[0] - a[0]), a[1] + kg * (b[1] - a[1])) for a, b in zip(pa, pb)]) for (op, pa), (_, pb) in zip(r4.value, r9.value)]
+        if chr(cp) in CROTCH_GLYPHS:
+            ops = shallow_crotch(ops)
+        if chr(cp) in ARCH_GLYPHS:
+            ops = even_counter(ops)
         if short > 0.03 * target_g and not os.environ.get('VF'):   # VF: offsetting changes topology per weight
             extra[name] = ('poly', embolden(ops, short / 2))
         else:
