@@ -76,7 +76,7 @@ def draw_ufo_contours(contours, pen, scale=1.0, dx=0.0):
 
 def build(stem, out):
     global PLAIN
-    R = ufoLib2.Font.open('src/SpaceMono-Regular.ufo'); B = ufoLib2.Font.open('src/SpaceMono-Bold.ufo')
+    R = ufoLib2.Font.open('../upstream/SpaceMono-Regular.ufo'); B = ufoLib2.Font.open('../upstream/SpaceMono-Bold.ufo')
     def hstem(u):
         c = pts(u, 'H')[0]; xs = sorted(set(round(p[0]) for p in c)); return xs[1] - xs[0]
     hR, hB = hstem(R), hstem(B)
@@ -96,7 +96,7 @@ def build(stem, out):
         else:
             glyphs[g] = ('sm', blend(a, b, min(t, TMAX.get(g, 99))))
     # Martian P R: instances at 400 and 800, extrapolate by stem
-    mar = TTFont('src/martian.woff2')
+    mar = TTFont('../upstream/martian.woff2')
     i400 = instantiateVariableFont(copy.deepcopy(mar), {'wght': 400})
     i800 = instantiateVariableFont(copy.deepcopy(mar), {'wght': 800})
     def pstem(f):
@@ -111,7 +111,7 @@ def build(stem, out):
         gl = copy.deepcopy(i400['glyf'][gn]); gl.coordinates = type(gl.coordinates)(coords)
         glyphs[g] = ('tt', gl, i400)
     # Geist Y: pick the weight whose stem matches (Geist stem ~= Geist H stem), scale to cap 800
-    gei = TTFont('src/GeistMono.ttf')
+    gei = TTFont('../upstream/GeistMono.ttf')
     gsc = 800 / 710
     g4 = instantiateVariableFont(copy.deepcopy(gei), {'wght': 400})
     g9 = instantiateVariableFont(copy.deepcopy(gei), {'wght': 900})

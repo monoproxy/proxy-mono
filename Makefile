@@ -19,9 +19,6 @@ build: build.stamp
 
 venv: venv/touchfile
 
-customize: venv
-	. venv/bin/activate; python3 scripts/customize.py
-
 build.stamp: venv $(SOURCES)
 	rm -rf fonts; mkdir -p fonts/ttf fonts/webfonts
 	. venv/bin/activate; cd sources/generator && for w in $(WEIGHTS); do \
@@ -49,7 +46,7 @@ gfstage: build.stamp
 
 test: gfstage
 	which fontspector || (echo "fontspector not found. Please install it with 'cargo binstall fontspector'." && exit 1)
-	TOCHECK=$$(find out/gf/proxymono -name '*.ttf'); mkdir -p out/ out/fontspector; fontspector --profile googlefonts -l warn --full-lists --succinct --html out/fontspector/fontspector-report.html --ghmarkdown out/fontspector/fontspector-report.md --badges out/badges $$TOCHECK  || echo '::warning file=sources/config.yaml,title=fontspector failures::The fontspector QA check reported errors in your font. Please check the generated report.'
+	TOCHECK=$$(find out/gf/proxymono -name '*.ttf'); mkdir -p out/ out/fontspector; fontspector --profile googlefonts -l warn --full-lists --succinct --html out/fontspector/fontspector-report.html --ghmarkdown out/fontspector/fontspector-report.md --badges out/badges $$TOCHECK  || echo '::warning title=fontspector failures::The fontspector QA check reported errors in your font. Please check the generated report.'
 
 proof: venv build.stamp
 	which diff3proof || (echo "diff3proof not found. Please install it with 'cargo binstall diffenator3'." && exit 1)
@@ -58,9 +55,6 @@ proof: venv build.stamp
 clean:
 	rm -rf venv
 	find . -name "*.pyc" -delete
-
-update-project-template:
-	npx update-template https://github.com/googlefonts/googlefonts-project-template/
 
 update: venv
 	venv/bin/pip install --upgrade pip-tools

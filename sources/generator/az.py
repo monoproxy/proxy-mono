@@ -500,7 +500,7 @@ def core_codepoints():
     # characters (drawn for Geist's 600 cell, they would not join up in ours), so the language checks
     # (Romanian T-comma, Dutch ij, Latvian, Lithuanian...) and the Plus symbols pass too
     import unicodedata
-    gei = TTFont(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src', 'GeistMono.ttf'))
+    gei = TTFont(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'upstream', 'GeistMono.ttf'))
     skip = ('CYRILLIC', 'BOX', 'QUADRANT', 'UPPER HALF', 'LOWER', 'FULL BLOCK', 'LEFT HALF', 'RIGHT HALF',
             'LIGHT SHADE', 'MEDIUM SHADE', 'DARK SHADE', 'LEFT ONE', 'RIGHT ONE', 'UPPER ONE', 'LOWER ONE')
     for c in gei.getBestCmap():
@@ -607,7 +607,7 @@ def gf_fixes(font):
 
 def build(stem, out, PLAIN):
     q.PLAIN = PLAIN
-    R = ufoLib2.Font.open('../src/SpaceMono-Regular.ufo'); B = ufoLib2.Font.open('../src/SpaceMono-Bold.ufo')
+    R = ufoLib2.Font.open('../upstream/SpaceMono-Regular.ufo'); B = ufoLib2.Font.open('../upstream/SpaceMono-Bold.ufo')
     def hstem(u):
         c = q.pts(u, 'H')[0]; xs = sorted(set(round(p[0]) for p in c)); return xs[1] - xs[0]
     hR, hB = hstem(R), hstem(B)
@@ -655,7 +655,7 @@ def build(stem, out, PLAIN):
                 for i in range(38, 45): c[i][0] += d
                 c[45][0] += d / 2
             glyphs[g] = ('sm', [[tuple(p) for p in c]])
-    mar = TTFont('../src/martian.woff2')
+    mar = TTFont('../upstream/martian.woff2')
     i400 = instantiateVariableFont(copy.deepcopy(mar), {'wght': 400})
     i800 = instantiateVariableFont(copy.deepcopy(mar), {'wght': 800})
     def pstem(f):
@@ -673,7 +673,7 @@ def build(stem, out, PLAIN):
         if PLAIN and g in 'BGQ':
             gl.coordinates = type(gl.coordinates)(plain_martian(g, [tuple(p) for p in gl.coordinates]))
         glyphs[g] = ('tt', gl, i400)
-    gei = TTFont('../src/GeistMono.ttf'); gsc = 800 / 710
+    gei = TTFont('../upstream/GeistMono.ttf'); gsc = 800 / 710
     g4 = instantiateVariableFont(copy.deepcopy(gei), {'wght': 400}); g9 = instantiateVariableFont(copy.deepcopy(gei), {'wght': 900})
     def ystem(f):
         c, _, _ = f['glyf']['Y'].getCoordinates(f['glyf']); xs = sorted(p[0] for p in c if abs(p[1]) < 1); return (xs[-1] - xs[0]) * gsc

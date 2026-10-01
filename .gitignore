@@ -3,7 +3,6 @@ venv
 venv-test
 build.stamp
 proof
-fonts
 node_modules
 package-lock.json
 package.json
@@ -41,3 +40,4 @@ Thumbs.db
 *（已自動儲存）.*
 build/
 out/
+__pycache__/
