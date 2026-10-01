@@ -18,6 +18,29 @@ def sig(f, g):
     c, e, fl = gl.getCoordinates(f['glyf'])
     return (tuple(e), tuple(x & 1 for x in fl))
 
+def align_starts(F, ref):
+    """Rotate each master's contour start points to the default master's, so no contour turns inside out
+    between masters (fontbakery interpolation_issues: the A family's shapely-built outlines start anywhere)."""
+    for g in F[ref].getGlyphOrder():
+        R = F[ref]['glyf'][g]
+        if R.isComposite() or R.numberOfContours <= 0: continue
+        rc, re_, rf = R.getCoordinates(F[ref]['glyf'])
+        for f in F:
+            G = f['glyf'][g]
+            if G is R or G.isComposite(): continue
+            c, e, fl = G.getCoordinates(f['glyf'])
+            if list(e) != list(re_): continue
+            pts, flags, s = [], [], 0
+            for end in e:
+                P = list(c[s:end + 1]); Fl = list(fl[s:end + 1]); Rp = list(rc[s:end + 1]); Rf = [x & 1 for x in rf[s:end + 1]]
+                n = len(P); best, bk = None, 0
+                for k in range(n):
+                    if [Fl[(i + k) % n] & 1 for i in range(n)] != Rf: continue
+                    d = sum((P[(i + k) % n][0] - Rp[i][0]) ** 2 + (P[(i + k) % n][1] - Rp[i][1]) ** 2 for i in range(n))
+                    if best is None or d < best: best, bk = d, k
+                pts += [P[(i + bk) % n] for i in range(n)]; flags += [Fl[(i + bk) % n] for i in range(n)]; s = end + 1
+            G.coordinates = type(c)(pts); G.flags = type(fl)(flags)
+
 def main(src, out):
     paths = [os.path.join(src, f'ProxyMono-{s}.ttf') for s in STYLES]
     F = [TTFont(p) for p in paths]
@@ -37,6 +60,7 @@ def main(src, out):
             F[i]['glyf'][g] = new; new.recalcBounds(F[i]['glyf'])
             F[i]['hmtx'][g] = (700, new.xMin)
             print(f'{g}: master {STYLES[i]} rebuilt from {STYLES[a]}/{STYLES[b]}')
+    align_starts(F, ref)
     ds = DesignSpaceDocument()
     ax = AxisDescriptor(); ax.tag = 'wght'; ax.name = 'Weight'; ax.minimum = 100; ax.default = 400; ax.maximum = 900
     ds.addAxis(ax)
@@ -83,7 +107,12 @@ def main(src, out):
         {'tag': 'slnt', 'name': 'Slant', 'values': [{'value': 0, 'name': 'Upright', 'flags': 2},
                                                    {'value': -SLANT, 'name': 'Slanted'}]}] if SLANT else []))
     vf['OS/2'].usWeightClass = 400; vf['OS/2'].fsSelection = (1 << 7) | (1 << 6); vf['head'].macStyle = 0
+    # avar: the masters sit at every hundred, so the mapping is the identity; it says so explicitly
+    from fontTools.ttLib import newTable
+    avar = newTable('avar'); avar.segments = {a.axisTag: {-1.0: -1.0, 0.0: 0.0, 1.0: 1.0} for a in vf['fvar'].axes}
+    vf['avar'] = avar
     vf.save(out)
+    import gf_post; gf_post.hmetrics3(out)
     w = TTFont(out); w.flavor = 'woff2'; w.save(out[:-4] + '.woff2')
     print('wrote', out)
 

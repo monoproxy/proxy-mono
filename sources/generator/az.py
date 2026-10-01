@@ -826,7 +826,9 @@ def build(stem, out, PLAIN):
     fb.setupPost(isFixedPitch=1)
     fb.font['head'].macStyle = 1 if wcls == 700 else 0
     gf_fixes(fb.font)
+    import gf_post; gf_post.post(fb.font)
     fb.save(out)
+    if not os.environ.get('VF'): gf_post.hmetrics3(out)
     if out.endswith('.ttf'):
         w2 = TTFont(out); w2.flavor = 'woff2'; w2.save(out[:-4] + '.woff2')
 
