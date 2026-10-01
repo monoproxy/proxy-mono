@@ -11,6 +11,39 @@ from fontTools.varLib.instancer import instantiateVariableFont
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.cu2quPen import Cu2QuPen
+from fontTools.pens.filterPen import FilterPen
+from fontTools.pens.reverseContourPen import ReverseContourPen
+
+QSEG = 4   # every cubic becomes exactly this many quadratics, at every weight
+
+class FixedQuad(FilterPen):
+    """Cubic -> a FIXED number of quadratics (split at equal t, each piece's control point from the
+    standard midpoint approximation). Cu2QuPen picks the fewest segments per curve, so the same curve got
+    different point counts at different weights and the nine masters could not interpolate; a fixed
+    count keeps every weight point-compatible for the variable font."""
+    def curveTo(self, *pts):
+        if len(pts) != 3:
+            return self._outPen.curveTo(*pts)
+        p0 = self.current_pt; p1, p2, p3 = pts
+        def at(u, a, b, c, d):
+            v = 1 - u
+            return tuple(v**3*a[i] + 3*v*v*u*b[i] + 3*v*u*u*c[i] + u**3*d[i] for i in (0, 1))
+        def dat(u, a, b, c, d):
+            v = 1 - u
+            return tuple(3*v*v*(b[i]-a[i]) + 6*v*u*(c[i]-b[i]) + 3*u*u*(d[i]-c[i]) for i in (0, 1))
+        for k in range(QSEG):
+            u0, u1 = k / QSEG, (k + 1) / QSEG
+            a, b = at(u0, p0, p1, p2, p3), at(u1, p0, p1, p2, p3)
+            da, db = dat(u0, p0, p1, p2, p3), dat(u1, p0, p1, p2, p3)
+            h = u1 - u0
+            # control point: meet of the end tangents, falling back to the midpoint formula
+            c1 = (a[0] + da[0] * h / 3, a[1] + da[1] * h / 3); c2 = (b[0] - db[0] * h / 3, b[1] - db[1] * h / 3)
+            q = ((3 * (c1[0] + c2[0]) - (a[0] + b[0])) / 4, (3 * (c1[1] + c2[1]) - (a[1] + b[1])) / 4)
+            self._outPen.qCurveTo(q, b)
+        self.current_pt = p3
+    def moveTo(self, p): self.current_pt = p; self._outPen.moveTo(p)
+    def lineTo(self, p): self.current_pt = p; self._outPen.lineTo(p)
+    def qCurveTo(self, *pts): self.current_pt = pts[-1]; self._outPen.qCurveTo(*pts)
 from fontTools.fontBuilder import FontBuilder
 
 SM = 'ACEFHILMNOSTUVWXZ'
@@ -607,7 +640,7 @@ def build(stem, out, PLAIN):
             kg = min(max((target_g - wlo) / (whi - wlo), -0.3), 1.5)
             short = target_g - (wlo + kg * (whi - wlo))
         ops = [(op, [(a[0] + kg * (b[0] - a[0]), a[1] + kg * (b[1] - a[1])) for a, b in zip(pa, pb)]) for (op, pa), (_, pb) in zip(r4.value, r9.value)]
-        if short > 0.03 * target_g:
+        if short > 0.03 * target_g and not os.environ.get('VF'):   # VF: offsetting changes topology per weight
             extra[name] = ('poly', embolden(ops, short / 2))
         else:
             extra[name] = ('rec', ops)
@@ -622,16 +655,15 @@ def build(stem, out, PLAIN):
         if gname in ('.notdef', 'space'): ttg[gname] = pen.glyph(); continue
         kind = glyphs[gname][0]
         if kind == 'sm':
-            q.draw_ufo_contours(glyphs[gname][1], Cu2QuPen(pen, 1.0, reverse_direction=True), q.SC)
+            q.draw_ufo_contours(glyphs[gname][1], ReverseContourPen(FixedQuad(pen)), q.SC)
         elif kind == 'path':
             # pathops output: make outer contours clockwise (TrueType) whatever skia's winding choice
             from fontTools.pens.areaPen import AreaPen
-            from fontTools.pens.reverseContourPen import ReverseContourPen
             ap = AreaPen(); glyphs[gname][1].draw(ap)
-            tgt = TransformPen(Cu2QuPen(pen, 1.0), (q.SC, 0, 0, q.SC, 0, 0))
+            tgt = TransformPen(FixedQuad(pen), (q.SC, 0, 0, q.SC, 0, 0))
             glyphs[gname][1].draw(ReverseContourPen(tgt) if ap.value > 0 else tgt)
         elif kind == 'q':
-            q.draw_ufo_contours(glyphs[gname][1], Cu2QuPen(pen, 1.0, reverse_direction=True), q.SC)
+            q.draw_ufo_contours(glyphs[gname][1], ReverseContourPen(FixedQuad(pen)), q.SC)
             tail = glyphs[gname][2]
             pen.moveTo(tail[0])
             for pt in tail[1:]: pen.lineTo(pt)

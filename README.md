@@ -9,6 +9,7 @@ Proxy Mono is a monospaced typeface in nine weights, Thin (100) to Black (900), 
 - One stroke weight per weight, on every character: 46 units (Thin) to 197 (Black).
 - No ink traps, a slashed zero, round descenders.
 - GF Latin Core and more: 571 characters.
+- Variable, 100–900 (`fonts/variable`), plus nine static weights.
 
 ## Download
 
@@ -22,7 +23,7 @@ masters to the target stem, rebuilds letters (M, N, W, G, K, Q and others) so ev
 thick, removes ink traps, composes the accented letters and centres every glyph in its cell.
 
 ```
-make build   # fonts/ttf and fonts/webfonts
+make build   # fonts/variable, fonts/ttf and fonts/webfonts
 make test    # fontspector, Google Fonts profile
 ```
 
