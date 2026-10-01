@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="ndotaccent" format="2">
+  <advance width="612"/>
+  <unicode hex="1E45"/>
+  <guideline y="574"/>
+  <guideline x="337"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="326" y="714" name="top"/>
+  <outline>
+    <component base="n"/>
+    <component base="dotaccentcomb" xOffset="20"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 02:44:02</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

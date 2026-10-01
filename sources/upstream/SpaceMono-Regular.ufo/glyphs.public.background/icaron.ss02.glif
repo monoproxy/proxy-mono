@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="icaron.ss02" format="2">
+  <outline>
+    <contour>
+      <point x="290" y="0" type="line"/>
+      <point x="368" y="0" type="line"/>
+      <point x="368" y="496" type="line"/>
+      <point x="120" y="496" type="line"/>
+      <point x="120" y="424" type="line"/>
+      <point x="290" y="424" type="line"/>
+    </contour>
+    <contour>
+      <point x="448" y="688" type="line"/>
+      <point x="364" y="688" type="line"/>
+      <point x="312" y="600" type="line"/>
+      <point x="300" y="600" type="line"/>
+      <point x="248" y="688" type="line"/>
+      <point x="164" y="688" type="line"/>
+      <point x="244" y="570" type="line"/>
+      <point x="368" y="570" type="line"/>
+    </contour>
+  </outline>
+</glyph>

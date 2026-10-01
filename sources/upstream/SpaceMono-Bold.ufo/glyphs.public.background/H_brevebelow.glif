@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Hbrevebelow" format="2">
+  <outline>
+    <contour>
+      <point x="61" y="700" type="line"/>
+      <point x="61" y="0" type="line"/>
+      <point x="193" y="0" type="line"/>
+      <point x="193" y="288" type="line"/>
+      <point x="419" y="288" type="line"/>
+      <point x="419" y="0" type="line"/>
+      <point x="551" y="0" type="line"/>
+      <point x="551" y="700" type="line"/>
+      <point x="419" y="700" type="line"/>
+      <point x="419" y="414" type="line"/>
+      <point x="193" y="414" type="line"/>
+      <point x="193" y="700" type="line"/>
+    </contour>
+    <contour>
+      <point x="438" y="-64" type="line"/>
+      <point x="348" y="-64" type="line"/>
+      <point x="348" y="-70" type="line" smooth="yes"/>
+      <point x="348" y="-94"/>
+      <point x="334" y="-112"/>
+      <point x="306" y="-112" type="curve" smooth="yes"/>
+      <point x="278" y="-112"/>
+      <point x="264" y="-94"/>
+      <point x="264" y="-70" type="curve" smooth="yes"/>
+      <point x="264" y="-64" type="line"/>
+      <point x="174" y="-64" type="line"/>
+      <point x="174" y="-78" type="line" smooth="yes"/>
+      <point x="174" y="-154"/>
+      <point x="228" y="-200"/>
+      <point x="306" y="-200" type="curve" smooth="yes"/>
+      <point x="384" y="-200"/>
+      <point x="438" y="-154"/>
+      <point x="438" y="-78" type="curve" smooth="yes"/>
+    </contour>
+  </outline>
+</glyph>

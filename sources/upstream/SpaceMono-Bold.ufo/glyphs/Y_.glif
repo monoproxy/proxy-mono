@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Y" format="2">
+  <advance width="612"/>
+  <unicode hex="0059"/>
+  <guideline y="246"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="306" y="700" name="top"/>
+  <anchor x="20" y="700" name="topleft"/>
+  <outline>
+    <contour>
+      <point x="240" y="0" type="line"/>
+      <point x="372" y="0" type="line"/>
+      <point x="372" y="246" type="line"/>
+      <point x="402" y="246" type="line"/>
+      <point x="603" y="700" type="line"/>
+      <point x="459" y="700" type="line"/>
+      <point x="315" y="366" type="line"/>
+      <point x="297" y="366" type="line"/>
+      <point x="153" y="700" type="line"/>
+      <point x="9" y="700" type="line"/>
+      <point x="210" y="246" type="line"/>
+      <point x="240" y="246" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+    </dict>
+  </lib>
+</glyph>

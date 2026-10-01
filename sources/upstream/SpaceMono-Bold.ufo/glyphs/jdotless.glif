@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="jdotless" format="2">
+  <advance width="612"/>
+  <unicode hex="0237"/>
+  <anchor x="306" y="-200" name="bottom"/>
+  <anchor x="296" y="496" name="top"/>
+  <outline>
+    <contour>
+      <point x="114" y="-200" type="line"/>
+      <point x="349" y="-200" type="line" smooth="yes"/>
+      <point x="409" y="-200"/>
+      <point x="450" y="-167"/>
+      <point x="450" y="-98" type="curve" smooth="yes"/>
+      <point x="450" y="496" type="line"/>
+      <point x="132" y="496" type="line"/>
+      <point x="132" y="376" type="line"/>
+      <point x="324" y="376" type="line"/>
+      <point x="324" y="-47" type="line" smooth="yes"/>
+      <point x="324" y="-68"/>
+      <point x="315" y="-80"/>
+      <point x="294" y="-80" type="curve" smooth="yes"/>
+      <point x="114" y="-80" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

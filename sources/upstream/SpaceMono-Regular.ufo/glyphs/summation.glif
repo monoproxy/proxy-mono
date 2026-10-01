@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="summation" format="2">
+  <advance width="612"/>
+  <unicode hex="2211"/>
+  <guideline y="350"/>
+  <guideline y="1322"/>
+  <guideline x="307"/>
+  <guideline x="-1428"/>
+  <outline>
+    <contour>
+      <point x="72" y="0" type="line"/>
+      <point x="540" y="0" type="line"/>
+      <point x="540" y="78" type="line"/>
+      <point x="144" y="78" type="line"/>
+      <point x="144" y="90" type="line"/>
+      <point x="388" y="308" type="line"/>
+      <point x="388" y="392" type="line"/>
+      <point x="144" y="610" type="line"/>
+      <point x="144" y="622" type="line"/>
+      <point x="540" y="622" type="line"/>
+      <point x="540" y="700" type="line"/>
+      <point x="72" y="700" type="line"/>
+      <point x="72" y="572" type="line"/>
+      <point x="316" y="356" type="line"/>
+      <point x="316" y="344" type="line"/>
+      <point x="72" y="128" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+    </dict>
+  </lib>
+</glyph>

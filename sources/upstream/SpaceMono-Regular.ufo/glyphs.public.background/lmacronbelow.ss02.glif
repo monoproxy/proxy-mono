@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="lmacronbelow.ss02" format="2">
+  <outline>
+    <contour>
+      <point x="270" y="0" type="line"/>
+      <point x="348" y="0" type="line"/>
+      <point x="348" y="700" type="line"/>
+      <point x="100" y="700" type="line"/>
+      <point x="100" y="628" type="line"/>
+      <point x="270" y="628" type="line"/>
+    </contour>
+    <contour>
+      <point x="168" y="-130" type="line"/>
+      <point x="450" y="-130" type="line"/>
+      <point x="450" y="-64" type="line"/>
+      <point x="168" y="-64" type="line"/>
+    </contour>
+  </outline>
+</glyph>

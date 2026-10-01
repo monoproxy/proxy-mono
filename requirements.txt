@@ -1,0 +1,4 @@
+glyphsLib>=6.15
+fonttools[ufo,woff]>=4.66
+ufoLib2
+shapely

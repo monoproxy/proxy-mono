@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="ihookabove" format="2">
+  <advance width="612"/>
+  <unicode hex="1EC9"/>
+  <guideline x="273"/>
+  <guideline x="351"/>
+  <guideline x="306"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="513" y="10" name="ogonek"/>
+  <anchor x="330" y="758" name="top"/>
+  <outline>
+    <component base="idotless"/>
+    <component base="hookabovecomb" xOffset="24"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 16:20:38</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

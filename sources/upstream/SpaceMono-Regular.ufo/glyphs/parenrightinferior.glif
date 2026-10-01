@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="parenrightinferior" format="2">
+  <advance width="612"/>
+  <unicode hex="208E"/>
+  <outline>
+    <contour>
+      <point x="208" y="-309" type="line"/>
+      <point x="226" y="-309" type="line" smooth="yes"/>
+      <point x="322" y="-309"/>
+      <point x="404" y="-238"/>
+      <point x="404" y="-119" type="curve" smooth="yes"/>
+      <point x="404" y="7" type="line" smooth="yes"/>
+      <point x="404" y="126"/>
+      <point x="322" y="197"/>
+      <point x="226" y="197" type="curve" smooth="yes"/>
+      <point x="208" y="197" type="line"/>
+      <point x="208" y="149" type="line"/>
+      <point x="226" y="149" type="line" smooth="yes"/>
+      <point x="298" y="149"/>
+      <point x="356" y="90"/>
+      <point x="356" y="5" type="curve" smooth="yes"/>
+      <point x="356" y="-117" type="line" smooth="yes"/>
+      <point x="356" y="-202"/>
+      <point x="298" y="-261"/>
+      <point x="226" y="-261" type="curve" smooth="yes"/>
+      <point x="208" y="-261" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+    </dict>
+  </lib>
+</glyph>

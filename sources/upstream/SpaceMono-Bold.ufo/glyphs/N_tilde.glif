@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Ntilde" format="2">
+  <advance width="612"/>
+  <unicode hex="00D1"/>
+  <guideline y="774"/>
+  <guideline y="752"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="314" y="937" name="top"/>
+  <outline>
+    <component base="N"/>
+    <component base="tildecomb" xOffset="64" yOffset="204"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 03:20:44</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

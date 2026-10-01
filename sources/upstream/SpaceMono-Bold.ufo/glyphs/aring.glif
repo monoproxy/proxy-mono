@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="aring" format="2">
+  <advance width="612"/>
+  <unicode hex="00E5"/>
+  <guideline x="253"/>
+  <anchor x="282" y="0" name="bottom"/>
+  <anchor x="551" y="10" name="ogonek"/>
+  <anchor x="286" y="784" name="top"/>
+  <outline>
+    <component base="a"/>
+    <component base="ringcomb" xOffset="128"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 03:21:57</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

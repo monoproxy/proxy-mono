@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="ldot" format="2">
+  <advance width="612"/>
+  <unicode hex="0140"/>
+  <guideline y="350"/>
+  <guideline x="525"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="306" y="248" name="center"/>
+  <anchor x="296" y="700" name="top"/>
+  <anchor x="374" y="700" name="topright"/>
+  <outline>
+    <component base="l"/>
+    <component base="periodcentered" xOffset="148"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.Export</key>
+      <false/>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 15:10:00</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>
