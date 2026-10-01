@@ -113,7 +113,12 @@ def extra(font):
         xr = stem_right(font, base, ymid)
         xmax = max(p[0] for pts, _ in b for p in pts)
         db = ybox(dot[0][0]); d = (db[2] - db[0])
-        cx = xr + (min(xmax, 640) - xr) / 2 if base == 'L' else xr + d * 0.9 + d / 2
+        if base == 'L':
+            cx = xr + (min(xmax, 640) - xr) / 2
+        else:
+            # half a dot clear of the stem, but never past 690: the old 0.9-dot gap pushed the Black dot
+            # out of the cell (suspicious_sidebearings)
+            cx = xr + min(d * 0.5, 690 - xr - d) + d / 2
         add_glyph(font, 'uni%04X' % cp, from_contours(b + shifted(dot, cx - (db[0] + db[2]) / 2, ymid - (db[1] + db[3]) / 2)), cp)
 
 def runs(font, name, y):
@@ -193,10 +198,15 @@ def metrics(font):
     os2, hh = font['OS/2'], font['hhea']
     os2.sTypoAscender, os2.sTypoDescender, os2.sTypoLineGap = ASC, DSC, 0
     hh.ascent, hh.descent, hh.lineGap = ASC, DSC, 0
-    os2.fsSelection |= 1 << 7       # USE_TYPO_METRICS
+    os2.fsSelection |= (1 << 7) | (1 << 8)   # USE_TYPO_METRICS, WWS (names are weight/width/slope only)
+
+def separators(font):
+    """Line and paragraph separators, empty and one cell wide (separator_glyphs)."""
+    for cp in (0x2028, 0x2029):
+        add_glyph(font, 'uni%04X' % cp, TTGlyphPen(None).glyph(), cp)
 
 def post(font):
-    prune(font); extra(font); auxiliary(font); carons(font); soft_dotted(font); metrics(font)
+    prune(font); extra(font); auxiliary(font); carons(font); soft_dotted(font); separators(font); metrics(font)
     font['maxp'].recalc(font)
 
 def hmetrics3(path):

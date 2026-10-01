@@ -106,7 +106,7 @@ def main(src, out):
         for i, s in enumerate(STYLES)]}] + ([
         {'tag': 'slnt', 'name': 'Slant', 'values': [{'value': 0, 'name': 'Upright', 'flags': 2},
                                                    {'value': -SLANT, 'name': 'Slanted'}]}] if SLANT else []))
-    vf['OS/2'].usWeightClass = 400; vf['OS/2'].fsSelection = (1 << 7) | (1 << 6); vf['head'].macStyle = 0
+    vf['OS/2'].usWeightClass = 400; vf['OS/2'].fsSelection = (1 << 8) | (1 << 7) | (1 << 6); vf['head'].macStyle = 0
     # avar: the masters sit at every hundred, so the mapping is the identity; it says so explicitly
     from fontTools.ttLib import newTable
     avar = newTable('avar'); avar.segments = {a.axisTag: {-1.0: -1.0, 0.0: 0.0, 1.0: 1.0} for a in vf['fvar'].axes}
