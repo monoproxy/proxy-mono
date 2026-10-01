@@ -242,8 +242,28 @@ def separators(font):
     for cp in (0x2028, 0x2029):
         add_glyph(font, 'uni%04X' % cp, TTGlyphPen(None).glyph(), cp)
 
+def merge(font, names=('uni221A', 'uni23CE')):
+    """Union the overlapping straight-sided pieces Geist builds √ and ⏎ from (contour_count). Only glyphs
+    with no curves, so the union is exact; vf.py checks the masters still match."""
+    from shapely.geometry import Polygon
+    from shapely.geometry.polygon import orient
+    from shapely.ops import unary_union
+    glyf = font['glyf']
+    for n in names:
+        cs = contours(glyf[n])
+        if not all(f & 1 for _, fl in cs for f in fl): continue
+        u = unary_union([Polygon(pts).buffer(0) for pts, _ in cs]).simplify(0.5)
+        out = []
+        for poly in getattr(u, 'geoms', [u]):
+            poly = orient(poly, -1)          # clockwise outer, counter-clockwise holes (TrueType)
+            for ring in [poly.exterior] + list(poly.interiors):
+                pts = [(round(x), round(y)) for x, y in list(ring.coords)[:-1]]
+                out.append((pts, [1] * len(pts)))
+        add_glyph(font, n, from_contours(out))
+
 def post(font):
-    prune(font); extra(font); auxiliary(font); carons(font); soft_dotted(font); separators(font); metrics(font)
+    prune(font); extra(font); auxiliary(font); carons(font); soft_dotted(font); separators(font); merge(font)
+    metrics(font)
     font['maxp'].recalc(font)
 
 def hmetrics3(path):
