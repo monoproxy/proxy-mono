@@ -161,7 +161,7 @@ def auxiliary(font):
     yb0, yb1 = (min(ys) - 4, max(y for y in ys if y < 680) + 4) if ys else (0, -1)
     lf = [([((x0 if x < x0 else x1 if x > x1 else x) if yb0 <= y <= yb1 else x, y) for x, y in pts], fl) for pts, fl in cs('uni0066')]
     add_glyph(font, 'uni017F', from_contours(lf), 0x017F)
-    # IJ / ij and Ezh (Ʒ ʒ Ǯ ǯ) are left out: they need drawing, not assembling from parts
+    # Ezh (Ʒ ʒ Ǯ ǯ) is left out: no upstream draws it, so it needs drawing
 
 def carons(font):
     glyf = font['glyf']

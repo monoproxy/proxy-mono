@@ -755,6 +755,18 @@ def build(stem, out, PLAIN):
             extra[name] = ('poly', embolden(ops, short / 2))
         else:
             extra[name] = ('rec', ops)
+    # IJ / ij: Space Mono's own drawings (Dutch, shape_languages), blended like the Space Mono capitals
+    # The IJ keeps Space Mono's square-ended gap in the left stem: it is what tells IJ from U (Danny,
+    # 2 Oct 2026). The ij dots are stem-squares on each stem's axis, like every other dot.
+    extra['uni0132'] = ('sm', q.blend(q.pts(R, 'IJ'), q.pts(B, 'IJ'), t))
+    ij = q.blend(q.pts(R, 'ij'), q.pts(B, 'ij'), t)
+    body = ij[0]; s = stem / q.SC
+    dots = []
+    for (xa, xb), dot in zip(((body[15][0], body[14][0]), (body[5][0], body[4][0])), ij[1:]):
+        cx = (xa + xb) / 2; cy = sum(p[1] for p in dot) / len(dot)
+        a, b, lo, hi = cx - s / 2, cx + s / 2, cy - s / 2, cy + s / 2
+        dots.append([(a, lo, 'line'), (b, lo, 'line'), (b, hi, 'line'), (a, hi, 'line')])
+    extra['uni0133'] = ('sm', [body] + dots)
     unify_dots(extra, stem / gsc)
     glyphs.update(extra)
     order = ['.notdef', 'space'] + [chr(c) for c in range(65, 91)] + sorted(extra)
