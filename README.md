@@ -17,6 +17,8 @@ up as a display heading and still work all the way down to code in an editor.
 
 Every number above is measured from the built fonts, not estimated.
 
+![COMING NOW Q4 2026, set in Proxy Mono at weight 650: the rebuilt M, N, W, G and Q, the shared oval of C, G, O and Q, and the slashed zero](documentation/letters.png)
+
 ![Proxy Mono: the wordmark at Black, the nine weights, the alphabet and the look-alike characters](documentation/hero.png)
 
 Specimen and type tester: https://www.monoproxy.studio/lab/proxymono
