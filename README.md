@@ -9,7 +9,7 @@ up as a display heading and still work all the way down to code in an editor.
   and arches run thinner so they read as the same weight (at Regular the bar of the H is 103, the top of
   the O 102).
 - **M, N, W, G and Q rebuilt.** Every stroke of the M, N and W is one stem and runs the full cap height,
-  up to Black. C, G, O and Q share one oval: flat sides, round ends.
+  up to Black. C, G, O, Q and the zero share one oval: flat sides, round ends.
 - **No ink traps**, a slashed zero and round descenders.
 - **Thin (100) to Black (900) on one cell.** Every character is 700 units wide on a 1000-unit em, cap
   height 800, x-height 600, at all nine weights. None of the fonts it starts from covers that range on
@@ -17,7 +17,7 @@ up as a display heading and still work all the way down to code in an editor.
 
 Every number above is measured from the built fonts, not estimated.
 
-![COMING NOW Q4 2026, set in Proxy Mono at weight 650: the rebuilt M, N, W, G and Q, the shared oval of C, G, O and Q, and the slashed zero](documentation/letters.png)
+![COMING NOW Q4 2026, set in Proxy Mono at weight 650: the rebuilt M, N, W, G and Q, the shared oval of C, G, O and Q, and the zero, which is the O with a slash](documentation/letters.png)
 
 ![Proxy Mono: the wordmark at Black, the nine weights, the alphabet and the look-alike characters](documentation/hero.png)
 
@@ -43,7 +43,8 @@ Proxy Mono starts from three open-source monospaces and is rebuilt so that it re
 | Part | Taken from | What was changed |
 |---|---|---|
 | Most capitals | Space Mono | Ink traps removed; M, N and W rebuilt so every stroke is one stem and runs the full cap height; Q rebuilt as the O with a tail |
-| B, D, J, K, P, R, the Q's tail and the zero | Martian Mono | Refitted to the 700-unit cell and the shared stem |
+| B, D, J, K, P, R and the Q's tail | Martian Mono | Refitted to the 700-unit cell and the shared stem |
+| The zero | Built from the O | The O with a slash |
 | G | Built from the C | The C's bowl with a bar and a stem |
 | Lowercase, figures, punctuation and the capital Y | Geist Mono | Interpolated to the shared stem at each weight; accented letters composed; every glyph centred in its cell |
 

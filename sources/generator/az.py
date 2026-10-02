@@ -359,6 +359,20 @@ def g_from_c(C, t, notch=None):
          (x_out, bt, 'line'), (xbl, bt, 'line'), (xbl, bb, 'line'), (x_in, bb, 'line'), inner] + c[7:]
     return [g]
 
+def zero_slash(O, stem):
+    """The zero is the O with a slash: the O's own two contours and this bar across the counter. Returns
+    the bar in final units, clockwise like the O's outer contour, so it fills. It runs through the O's
+    centre at the slope of Martian's slashed zero, is 0.85 of a stem thick, and its ends reach 0.3 of a
+    stem into the O's sides, so it joins them at every weight."""
+    SC = q.SC
+    box = lambda c: (min(p[0] for p in c) * SC, min(p[1] for p in c) * SC, max(p[0] for p in c) * SC, max(p[1] for p in c) * SC)
+    outer, inner = sorted((box(c) for c in O), key=lambda b: (b[2] - b[0]), reverse=True)[:2]
+    cx, cy = (outer[0] + outer[2]) / 2, (outer[1] + outer[3]) / 2
+    m = 0.755; hv = 0.85 * stem * math.hypot(1, m) / 2
+    xl, xr = inner[0] - 0.3 * stem, inner[2] + 0.3 * stem
+    y = lambda x: cy + m * (x - cx)
+    return [(round(xl), round(y(xl) + hv)), (round(xr), round(y(xr) + hv)), (round(xr), round(y(xr) - hv)), (round(xl), round(y(xl) - hv))]
+
 def q_tail(gl, src, O, stem, PLAIN):
     """Martian's Q tail, re-hung under Space Mono's O. Returns the tail polygon in final units, drawn
     as TrueType outer contours. Plain: the tail is one stem thick and its top edge starts inside the
@@ -666,8 +680,8 @@ def build(stem, out, PLAIN):
     glyphs['G'] = ('sm', g_from_c(glyphs['C'][1], t, G_NOTCH_600))
     glyphs['Q'] = ('q', glyphs['O'][1], q_tail(glyphs['Q'][1], glyphs['Q'][2], glyphs['O'][1], stem, PLAIN))
     # lowercase, figures, punctuation (all printable ASCII beyond A-Z): Geist Mono, the plain reference
-    # (round g j y, no square-hook descenders), calibrated so its n stem equals the target stem; zero is
-    # Martian's slashed zero. Geist has no ink traps, so Plain and Inktrap share these.
+    # (round g j y, no square-hook descenders), calibrated so its n stem equals the target stem; the zero is
+    # our O with a slash (zero_slash). Geist has no ink traps, so Plain and Inktrap share these.
     from fontTools.pens.recordingPen import DecomposingRecordingPen
     gcm = gei.getBestCmap()
     def nstem(f):                                  # width of the n's left stem, measured across at y=250
@@ -723,10 +737,7 @@ def build(stem, out, PLAIN):
     for cp in list(range(33, 65)) + list(range(91, 127)) + SITE_EXTRA + core_out:
         name = 'uni%04X' % cp
         if cp == ord('0'):
-            gn = mar.getBestCmap()[cp]
-            z4, _, _ = mlo['glyf'][gn].getCoordinates(mlo['glyf']); z8, _, _ = mhi['glyf'][gn].getCoordinates(mhi['glyf'])
-            gz = copy.deepcopy(i400['glyf'][gn]); gz.coordinates = type(gz.coordinates)([(x + k * (x2 - x), y + k * (y2 - y)) for (x, y), (x2, y2) in zip(z4, z8)])
-            extra[name] = ('tt', gz, i400); continue
+            extra[name] = ('q', glyphs['O'][1], zero_slash(glyphs['O'][1], stem)); continue
         r4, r9 = DecomposingRecordingPen(gs4), DecomposingRecordingPen(gs9)
         if str(cp) not in GS[mlo_w] and cp in CAL_AS: cp_cal = CAL_AS[cp]
         else: cp_cal = cp
