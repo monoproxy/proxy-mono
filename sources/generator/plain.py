@@ -141,8 +141,8 @@ def build_N(src, s, sd=None):
 
 # M and W keep Space Mono's own shape (near-vertical strokes, V on the baseline, W's plateau at the
 # cap). Plain only changes how counters end: in a clean point one crossbar (h) from the baseline or cap
-# line, instead of Space Mono's slots. Every stroke is exactly s. Heavier than the cap (Danny chose B,
-# 30 Sep 2026) they stop gaining weight: the cap is where the narrowest counter opening falls to
+# line, instead of Space Mono's slots. Every stroke is exactly s. Heavier than the cap
+# (option B) they stop gaining weight: the cap is where the narrowest counter opening falls to
 # MW_KAPPA * s.
 MW_KAPPA = 0.5
 
@@ -197,16 +197,16 @@ def m_arm_fit(s):
     return solve(lambda sa: m_parts(s, sa)[4] - MW_KAPPA * sa, 20.0, s)
 
 
-# FULL (Danny, 30 Sep 2026: "keep it FULL but reduce the top gap", "to make the stem thicker"): every
+# FULL: every
 # stroke is s at every weight. While it fits, Space Mono's shape (counters reach within one crossbar of
 # the far edge). Heavier, the counters get shorter instead of the strokes thinner: the V notch comes
 # down from the cap and the side notches come up from the baseline, symmetric about half-height, each
 # opening MW_OPEN * s wide.
 MW_OPEN = 0.25
 MW_OPEN_ABS = MW_OPEN * 144 / (700 / 612)   # heavier than 600 the gaps stay this wide, so they keep
-                                             # narrowing relative to the strokes (Danny: "keep reducing")
+                                             # narrowing relative to the strokes
 MW_OPEN_HEAVY = 0.6   # ...but from 700 up the M/W notches open to 0.6 x stem, faded in from 600, so full-weight
-                      # M and W stop reading as solid blocks (Danny, 30 Sep 2026, after seeing them live)
+                      # M and W stop reading as solid blocks
 
 
 def _heavy_target(s):
@@ -221,14 +221,14 @@ def m_xl(t):
     sm = max(46 - 24 * t, 12.0); hx = 73 - 12 * t
     mode = os.environ.get('M_SB', 'c2')
     if mode == 'c2':
-        # Danny, 30 Sep 2026: Space Mono's wider M up to 600 (running text); halfway between that and the
+        # Space Mono's wider M up to 600 (running text); halfway between that and the
         # H/N margins from 700 up, where the wordmark is set (its M|O gap is then evened by nudging the
         # wordmark's first O on the site, not in the font)
         u = min(max(((84 + 48 * t) * (700 / 612) - 144) / (162 - 144), 0.0), 1.0)
         return sm + ((sm + hx) / 2 - sm) * u
     if mode == 'c':
-        # Danny, 30 Sep 2026 (option C): Space Mono's wider M up to 600, where running text is set and the
-        # narrow M read dark; the H/N margins ('match', even gaps) from 700 up, where he approved it
+        # Option C: Space Mono's wider M up to 600, where running text is set and the
+        # narrow M read dark; the H/N margins ('match', even gaps) from 700 up
         u = min(max(((84 + 48 * t) * (700 / 612) - 144) / (162 - 144), 0.0), 1.0)
         return sm + (hx - sm) * u
     return sm if mode == 'sm' else hx if mode == 'match' else (sm + hx) / 2
@@ -259,7 +259,7 @@ def w_full(s, si=None):
     """Space Mono's W at full weight. Outer strokes keep their slant (held at the 600 value). Up to ~600
     the counters are Space Mono's (V counters to one crossbar above the baseline, the Lambda counter to
     one below the cap). Heavier, the counters shorten (V from the cap, Lambda from the baseline) and the
-    gaps stay MW_OPEN_ABS wide. The approved 900 (Danny, 30 Sep 2026) is this construction. Around 700
+    gaps stay MW_OPEN_ABS wide. The 900 is this construction. Around 700
     the four strokes fill the width exactly and neither form fits, so the outer strokes step in until the
     heavy form does."""
     t = _t(s)
@@ -323,12 +323,12 @@ def build_W(s, t, si=None):
                     (ADV - xo7 - w, C), (ADV - xv, yv), (ADV - xp, C), (xp, C), (xv, yv), (xo7 + w, C), (xo7, C)])
 
 
-# Optical colour (Danny, 30 Sep 2026: "M and N look a bit darker at 300, 400"). With every stroke = s,
+# Optical colour: M and N looked a bit darker at 300 and 400. With every stroke = s,
 # N inked 1.20 x H and M/W 1.67 x H. Matching H exactly needed hairline diagonals (0.55-0.67 s), so the
 # diagonals (never the stems) are DIAG x s instead: N ~1.14, M/W ~1.50 x H, in line with Space Mono's
 # own N 1.25 / M 1.53 and Geist 400 1.16 / 1.38; 0.8 is Space Mono Bold's own M diagonal ratio (0.78).
 # Full correction up to 600, fading out by 700 so the approved full-weight heavy M/W are unchanged.
-DIAG = 0.9   # M and W only, 100-600, fading out by 700 (Danny chose option C, 30 Sep 2026; 0.8 was rejected)
+DIAG = 0.9   # M and W only, 100-600, fading out by 700 (option C; 0.8 was rejected)
 
 
 def h_area(s, t):

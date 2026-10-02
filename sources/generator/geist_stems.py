@@ -1,5 +1,5 @@
 """Measure each Geist Mono glyph's own stem (Geist units) at its 100 / 400 / 900 masters, so az.py can
-calibrate every Geist glyph by its own stem instead of the n's (Danny, 30 Sep 2026: figures and
+calibrate every Geist glyph by its own stem instead of the n's (figures and
 punctuation drifted 0.5-1.1 x the stem). Stem = median thickness of cuts that go straight across a
 vertical/diagonal stroke; glyphs with none (- = _ ~) use their horizontal strokes. Writes
 geist_stems.json next to this script."""

@@ -92,7 +92,7 @@ def m_equal(c, s, t, PLAIN):
     counters ending at 0.8 cap); heavier weights open the arms and lift the V so full-weight strokes fit.
     c = Space Mono M blended at min(t, 1): source of the trap slit/slot sizes. Space Mono units."""
     cx = 306
-    heavy = os.environ.get('M_HEAVY', 'full')   # trap-mode M; Danny: keep it FULL, 30 Sep 2026
+    heavy = os.environ.get('M_HEAVY', 'full')   # trap-mode M: full-weight strokes
     if s * q.SC > 162.5 and heavy == 'cap':          # M stops gaining weight at 700
         s = 162 / q.SC; t = (s - 84) / 48
     if s * q.SC > 162.5 and heavy == 'chevron':
@@ -146,7 +146,7 @@ def m_chevron(s, xL, k=0.35):
     return [[(x, y, 'line') for x, y in pts]]
 
 def unify_dots(extra, s=None):
-    """Every square dot is the period's dot (Danny, 30 Sep 2026: "the square has to be the same size"):
+    """Every square dot is the period's dot:
     . : ; ! ? i j. A dot = a small contour of few points within 0.5-1.8x the period's size. Dots that
     sit on the baseline stay on it; the rest keep their centre. Works on Geist-unit recordings."""
     def contours(ops):
@@ -161,7 +161,7 @@ def unify_dots(extra, s=None):
     per = contours(extra['uni002E'][1])
     px0, py0, px1, py1 = bbox(per[0]); dw, dh = px1 - px0, py1 - py0
     ow, oh = dw, dh                              # detection uses the period's own size
-    if s: dw = dh = s                            # every dot is a stem-square (Danny, 1 Oct 2026)
+    if s: dw = dh = s                            # every dot is a stem-square
     def stem_cx(ops):
         # centre of the vertical stem, measured across at y = 250 (i and j: the dot sits on the stem's axis)
         from shapely.geometry import Polygon as SP, LineString
@@ -203,7 +203,7 @@ CROTCH = 0.5   # how much of the notch where an arch leaves a stem (n m h r u...
 
 def shallow_crotch(ops, k=CROTCH):
     """Geist's arches leave the stem low, cutting a deep V notch between the stem's edge and the arch's
-    outer curve (Danny, 1 Oct 2026: "reduce the v gap, keep the stem width"). The notch is the pattern
+    outer curve. The notch is the pattern
     lineTo(stem top) -> lineTo(A, straight down the stem's edge) -> lineTo(B, a step back onto the arch)
     -> curve. Lift A, B and the curve's first handle by k of the notch depth: the stem edge is only
     extended, never moved, so the stem keeps its width. Works the same upside down (u)."""
@@ -240,11 +240,11 @@ def shallow_crotch(ops, k=CROTCH):
         ops[i + 2] = (o3, [(q[0], end - (end - q[1]) * f) for q in p3[:-1]] + [p3[-1]])
     return ops
 
-ARCH_GLYPHS = ''   # arch redraw reverted (Danny, 1 Oct 2026: "looks weird, revert")
+ARCH_GLYPHS = ''   # arch redraw reverted
 
 def even_counter(ops):
-    """n/h arch, one stem thick all the way over (Danny, 1 Oct 2026: thick at the shoulders, thin at
-    the top, "make them more even"). The outer and inner curves become two concentric half-ellipses,
+    """n/h arch, one stem thick all the way over (it ran thick at the shoulders, thin at
+    the top). The outer and inner curves become two concentric half-ellipses,
     the outer one exactly one stem bigger in both radii, centred on the counter. The outer keeps its
     overshoot height; the inner top drops to one stem below it. On the left the outer curve starts
     where its ellipse meets the stem (the crotch), which also sets how deep the notch is."""
@@ -330,7 +330,7 @@ def embolden(ops, d):
 def k_symmetric(c, stem, cap=800):
     """Martian's K = stem rectangle (0-3) + a '<' contour (4-9): (499,0) (218,387) (517,800) (649,800)
     (353,392) (638,0) at 400. Its arm is taller than its leg, so the upper counter starts higher and
-    opens wider than the lower one (Danny, 30 Sep 2026). Rebuild the '<' symmetric about cap/2: the
+    opens wider than the lower one. Rebuild the '<' symmetric about cap/2: the
     arm keeps Martian's top-right corner and slope, is one stem thick, and the leg mirrors it."""
     c = [list(p) for p in c]
     slope = (c[6][0] - c[5][0]) / (c[6][1] - c[5][1])        # dx/dy of the arm
@@ -380,12 +380,12 @@ def g_split(c):
 
 def g_from_c(C, t, notch=None):
     """G = the C exactly (bowl, curves, even stroke) + the bar + a vertical stem on the right from the bar
-    down to the baseline (Danny, 30 Sep 2026: "keep the shape but add the vertical stem"; this version is
+    down to the baseline (the shape kept, a vertical stem added; this version is
     the one he approved for 100-600). The bowl's bottom curve is split where it meets the stem's left
     edge; below that the stem's edge runs on down to the baseline, leaving an inverted V between bowl and
     stem. From ~700 up that meeting point drops under the baseline and the V closes, so there the curve
     is lifted to meet the stem at `notch` (a fraction of the stem, held from 600) and the V stays open
-    ("even though technically not correct", Danny). Bar from Space Mono's G: bottom 258 -> 228,
+    (kept by eye, not by construction). Bar from Space Mono's G: bottom 258 -> 228,
     top 336 -> 354, left end 239 -> 260."""
     c = C[0]
     bb, bt, xbl = 258 - 30 * t, 336 + 18 * t, 239 + 21 * t
@@ -644,7 +644,7 @@ def build(stem, out, PLAIN):
             glyphs[g] = ('sm', n_equal(src[0], PLAIN))
         else:
             glyphs[g] = ('sm', q.blend(a, b, min(t, TMAX.get(g, 99))))
-        if g == 'S':   # the lower terminal never sticks out past the top bowl's left edge (Danny, 30 Sep)
+        if g == 'S':   # the lower terminal never sticks out past the top bowl's left edge
             # Move the whole tail in, both edges together, so it keeps its thickness (clipping only the
             # outer edge left a hairline end at the light weights). Points (fixed S, 46): 38-44 are the
             # tail from the inner bottom curve's handles to the outer edge's lower handle; 45 goes half.
@@ -712,8 +712,8 @@ def build(stem, out, PLAIN):
     gs4, gs9 = llo.getGlyphSet(), lhi.getGlyphSet()
     extra = {}
     # every Geist glyph is calibrated by its OWN stem (geist_stems.json, measured at Geist's 100/400/900
-    # masters), not the n's: figures ran ~1.06x, punctuation 0.5-0.9x, m v w x y ~0.9x (Danny, 30 Sep
-    # 2026). Extrapolation is held to [-0.3, 1.5] of the master pair; a glyph Geist draws too light to
+    # masters), not the n's: figures ran ~1.06x, punctuation 0.5-0.9x, m v w x y ~0.9x.
+    # Extrapolation is held to [-0.3, 1.5] of the master pair; a glyph Geist draws too light to
     # get there (e.g. @, %) is thickened by offsetting its outline, as far as its counters survive.
     import json
     GS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'geist_stems.json')))
@@ -742,8 +742,8 @@ def build(stem, out, PLAIN):
         wlo, whi = GS[mlo_w].get(str(cp_cal)), GS[mhi_w].get(str(cp_cal))
         # dots keep their size; $ is measured by its thin bar (would bloat the S) and z by its bars (its
         # diagonal is too steep to measure, would bloat the diagonal): both were already on the n's stem
-        # the dot family . : , ; stays on one calibration so the comma's head = the period's dot (Danny,
-        # 30 Sep 2026: the ; mixed a colon dot with a thickened comma and looked wrong)
+        # the dot family . : , ; stays on one calibration so the comma's head = the period's dot
+        # (the ; mixed a colon dot with a thickened comma and looked wrong)
         if cp not in N_BASED and wlo and whi and whi - wlo > 1:
             kg = min(max((target_g - wlo) / (whi - wlo), -0.3), 1.5)
             short = target_g - (wlo + kg * (whi - wlo))
@@ -757,8 +757,8 @@ def build(stem, out, PLAIN):
         else:
             extra[name] = ('rec', ops)
     # IJ / ij: Space Mono's own drawings (Dutch, shape_languages), blended like the Space Mono capitals
-    # The IJ keeps Space Mono's square-ended gap in the left stem: it is what tells IJ from U (Danny,
-    # 2 Oct 2026). The ij dots are stem-squares on each stem's axis, like every other dot.
+    # The IJ keeps Space Mono's square-ended gap in the left stem: it is what tells IJ from U.
+    # The ij dots are stem-squares on each stem's axis, like every other dot.
     extra['uni0132'] = ('sm', q.blend(q.pts(R, 'IJ'), q.pts(B, 'IJ'), t))
     ij = q.blend(q.pts(R, 'ij'), q.pts(B, 'ij'), t)
     body = ij[0]; s = stem / q.SC
