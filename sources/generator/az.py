@@ -283,50 +283,6 @@ def even_counter(ops):
         break
     return ops
 
-def embolden(ops, d):
-    """Offset a recorded TrueType outline outward by up to d on every side (thickens every stroke by
-    2d), backing off until no counter closes. Returns rings, TrueType-oriented (outer clockwise)."""
-    from shapely.geometry import Polygon as SP
-    from shapely.geometry.polygon import orient
-    from shapely.ops import unary_union
-    from fontTools.pens.basePen import BasePen
-    rings, cur = [], []
-    class Flat(BasePen):
-        def _moveTo(s_, p): cur.clear(); cur.append(p)
-        def _lineTo(s_, p): cur.append(p)
-        def _qCurveToOne(s_, p1, p2):
-            p0 = cur[-1]
-            for i in range(1, 9):
-                u = i / 8; cur.append(((1-u)**2*p0[0] + 2*(1-u)*u*p1[0] + u*u*p2[0], (1-u)**2*p0[1] + 2*(1-u)*u*p1[1] + u*u*p2[1]))
-        def _closePath(s_): rings.append(list(cur))
-        _endPath = _closePath
-    fp = Flat(None)
-    for op, pts in ops: getattr(fp, op)(*pts)
-    outer, inner = [], []
-    for r in rings:
-        if len(r) < 3: continue
-        a2 = sum(r[i][0] * r[(i + 1) % len(r)][1] - r[(i + 1) % len(r)][0] * r[i][1] for i in range(len(r)))
-        (outer if a2 < 0 else inner).append(SP(r).buffer(0))
-    geom = unary_union(outer)
-    if inner: geom = geom.difference(unary_union(inner))
-    def holes(g):
-        ps = [g] if g.geom_type == 'Polygon' else list(g.geoms)
-        return sum(len(p.interiors) for p in ps), len(ps)
-    h0 = holes(geom)
-    lo, hi = 0.0, d
-    for _ in range(25):
-        if holes(geom.buffer(hi, join_style=2, mitre_limit=2.0)) == h0: lo = hi; break
-        mid = (lo + hi) / 2
-        if holes(geom.buffer(mid, join_style=2, mitre_limit=2.0)) == h0: lo = mid
-        else: hi = mid
-    g = geom.buffer(lo, join_style=2, mitre_limit=2.0).simplify(0.3)
-    out = []
-    for p in ([g] if g.geom_type == 'Polygon' else list(g.geoms)):
-        p = orient(p, -1.0)
-        for ring in [p.exterior] + list(p.interiors):
-            out.append(list(ring.coords)[:-1])
-    return out
-
 def k_symmetric(c, stem, cap=800):
     """Martian's K = stem rectangle (0-3) + a '<' contour (4-9): (499,0) (218,387) (517,800) (649,800)
     (353,392) (638,0) at 400. Its arm is taller than its leg, so the upper counter starts higher and
@@ -562,7 +518,10 @@ def compose_core(fb, order, metrics, cmap, comp, llo, lhi, kl, gsc):
         gb = bbox(rec(clo[0].glyphName)); gx0, gx1 = gb[0], gb[2]
         bx0, bx1 = (bo.xMin, bo.xMax) if bo.numberOfContours else (350, 350)
         pen = TTGlyphPen(None)
-        bo.draw(pen, glyf)
+        # the base keeps the offset Geist gives it: the subscript figures are the superscripts moved down
+        # (drawn where the base sits, they stayed at superscript height)
+        bdx = round((clo[0].x + kl * (chi[0].x - clo[0].x)) * gsc); bdy = round((clo[0].y + kl * (chi[0].y - clo[0].y)) * gsc)
+        bo.draw(TransformPen(pen, (1, 0, 0, 1, bdx, bdy)), glyf)
         for kl_, kh in zip(clo[1:], chi[1:]):
             ox = (kl_.x + kl * (kh.x - kl_.x)) * gsc; oy = (kl_.y + kl * (kh.y - kl_.y)) * gsc
             ops = [(op, [(p[0] + ox, p[1] + oy) for p in pts]) for op, pts in rec(kl_.glyphName)]
@@ -717,8 +676,9 @@ def build(stem, out, PLAIN):
     extra = {}
     # every Geist glyph is calibrated by its OWN stem (geist_stems.json, measured at Geist's 100/400/900
     # masters), not the n's: figures ran ~1.06x, punctuation 0.5-0.9x, m v w x y ~0.9x.
-    # Extrapolation is held to [-0.3, 1.5] of the master pair (EXTRAP lists the symbols that may go
-    # further); a glyph that still falls short is thickened by offsetting its outline in the static fonts.
+    # Extrapolation is held to [-0.3, 1.5] of the master pair; EXTRAP lists the symbols that may go
+    # further. Nothing is thickened by offsetting its outline: the static fonts and the variable font's
+    # masters are the same outlines.
     import json
     GS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'geist_stems.json')))
     mlo_w, mhi_w = ('100', '400') if llo is g1 else ('400', '900')
@@ -741,7 +701,8 @@ def build(stem, out, PLAIN):
     # Straight-sided symbols (and the degree ring) stay clean well past the Black master, so they may
     # extrapolate as far as their own stem asks (1.6 to 2.2 at Black) instead of stopping at 1.5: they
     # keep gaining weight to Black, the same in the static and the variable fonts, with no offsetting.
-    EXTRAP = dict.fromkeys([ord('='), ord('^'), 0x00B0, 0x2500, 0x2190, 0x2191, 0x2192, 0x2193, 0x2197, 0x2265], 2.3)
+    # The # needs 1.6 at Black.
+    EXTRAP = dict.fromkeys([ord('#'), ord('='), ord('^'), 0x00B0, 0x2500, 0x2190, 0x2191, 0x2192, 0x2193, 0x2197, 0x2265], 2.3)
     core_out, core_comp = core_plan(gei, set(range(32, 127)) | set(SITE_EXTRA))
     for cp in list(range(33, 65)) + list(range(91, 127)) + SITE_EXTRA + core_out:
         name = 'uni%04X' % cp
@@ -754,7 +715,7 @@ def build(stem, out, PLAIN):
         if str(cp) not in GS[mlo_w] and cp in CAL_AS: cp_cal = CAL_AS[cp]
         else: cp_cal = cp
         gs4[gcm[cp]].draw(r4); gs9[gcm[cp]].draw(r9)
-        kg, short = kl, 0.0
+        kg = kl
         wlo, whi = GS[mlo_w].get(str(cp_cal)), GS[mhi_w].get(str(cp_cal))
         # dots keep their size; $ is measured by its thin bar (would bloat the S) and z by its bars (its
         # diagonal is too steep to measure, would bloat the diagonal): both were already on the n's stem
@@ -762,7 +723,6 @@ def build(stem, out, PLAIN):
         # (the ; mixed a colon dot with a thickened comma and looked wrong)
         if cp not in N_BASED and wlo and whi and whi - wlo > 1:
             kg = min(max((target_g - wlo) / (whi - wlo), -0.3), EXTRAP.get(cp, 1.5))
-            short = target_g - (wlo + kg * (whi - wlo))
         ops = [(op, [(a[0] + kg * (b[0] - a[0]), a[1] + kg * (b[1] - a[1])) for a, b in zip(pa, pb)]) for (op, pa), (_, pb) in zip(r4.value, r9.value)]
         if cp in (0x2018, 0x201C):
             # Geist hangs its opening quotes above the cap line (731-763 of 710); the closing ones, the
@@ -773,10 +733,7 @@ def build(stem, out, PLAIN):
             ops = shallow_crotch(ops)
         if chr(cp) in ARCH_GLYPHS:
             ops = even_counter(ops)
-        if short > 0.03 * target_g and not os.environ.get('VF'):   # VF: offsetting changes topology per weight
-            extra[name] = ('poly', embolden(ops, short / 2))
-        else:
-            extra[name] = ('rec', ops)
+        extra[name] = ('rec', ops)
     # IJ / ij: Space Mono's own drawings (Dutch, shape_languages), blended like the Space Mono capitals
     # The IJ keeps Space Mono's square-ended gap in the left stem: it is what tells IJ from U.
     # The ij dots are stem-squares on each stem's axis, like every other dot.
@@ -815,16 +772,6 @@ def build(stem, out, PLAIN):
             pen.closePath()
         elif kind == 'tt':
             glyphs[gname][1].draw(pen, glyphs[gname][2]['glyf'])
-        elif kind in ('poly', 'multi'):
-            tp = TransformPen(pen, (gsc, 0, 0, gsc, (700 - 600 * gsc) / 2, 0))
-            for pk, pdata in (glyphs[gname][1] if kind == 'multi' else [('poly', glyphs[gname][1])]):
-                if pk == 'poly':
-                    for ring in pdata:
-                        tp.moveTo(ring[0])
-                        for pt in ring[1:]: tp.lineTo(pt)
-                        tp.closePath()
-                else:
-                    for op, pts in pdata: getattr(tp, op)(*pts)
         elif kind == 'rec':
             tp = TransformPen(pen, (gsc, 0, 0, gsc, (700 - 600 * gsc) / 2, 0))
             for op, pts in glyphs[gname][1]:

@@ -1,5 +1,5 @@
 """Variable ProxyMono from the nine static masters. Usage: vf.py <masters dir> <out.ttf>
-Masters must be built with VF=1 (no per-weight outline offsetting) so they are point-compatible. A glyph
+Masters are built with VF=1 and are point-compatible. A glyph
 that still differs in one master (the M at 900, whose V points meet) is rebuilt in that master by
 extrapolating its two nearest compatible neighbours by stem."""
 import sys, os

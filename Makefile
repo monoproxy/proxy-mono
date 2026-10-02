@@ -24,7 +24,7 @@ build.stamp: venv $(SOURCES)
 	. venv/bin/activate; cd sources/generator && for w in $(WEIGHTS); do \
 	  python3 az.py $${w%%:*} ../../fonts/ttf/ProxyMono-$${w##*:}.ttf plain || exit 1; \
 	  mv ../../fonts/ttf/ProxyMono-$${w##*:}.woff2 ../../fonts/webfonts/; done
-	# variable font: masters built with VF=1 (point-compatible, no per-weight offsetting), then merged
+	# variable font: masters built with VF=1 (point-compatible), then merged
 	mkdir -p fonts/variable build/masters
 	. venv/bin/activate; cd sources/generator && for w in $(WEIGHTS); do \
 	  VF=1 python3 az.py $${w%%:*} ../../build/masters/ProxyMono-$${w##*:}.ttf plain || exit 1; done && \

@@ -315,14 +315,18 @@ def fraction_slash(font, n='uni2044'):
     pts = [(xl, y0), (xl + round(run), top), (xl + round(run) + w, top), (xl + w, y0)]
     add_glyph(font, n, from_contours([(pts, [1, 1, 1, 1])]))
 
-def mirrored(font, pairs=(('uni2265', 'uni2264'), ('uni2197', 'uni2196'))):
-    """Less-or-equal and the north-west arrow are their twins turned over, left to right, in the cell.
-    Geist draws each pair as mirror images, but only one of each was calibrated by its own stem, so the
-    other came out up to a quarter lighter and smaller."""
+def mirrored(font):
+    """Less-or-equal is greater-or-equal turned over left to right in the cell, and the four diagonal
+    arrows are one arrow: north-west is north-east turned over left to right, and the two southern ones
+    are those turned over top to bottom about the arrow's own middle. Geist draws them as mirror images,
+    but only one of each was calibrated by its own stem, so the others came out up to a quarter lighter."""
     glyf = font['glyf']
-    for src, dst in pairs:
-        add_glyph(font, dst, from_contours([([(700 - x, y) for x, y in reversed(pts)], list(reversed(fl)))
-                                            for pts, fl in contours(glyf[src])]))
+    def flip(src, dst, upside_down=False):
+        cs = contours(glyf[src]); b = ybox([p for pts, _ in cs for p in pts]); t = b[1] + b[3]
+        add_glyph(font, dst, from_contours([([(x, t - y) if upside_down else (700 - x, y) for x, y in reversed(pts)],
+                                             list(reversed(fl))) for pts, fl in cs]))
+    flip('uni2265', 'uni2264'); flip('uni2197', 'uni2196')
+    flip('uni2197', 'uni2198', True); flip('uni2196', 'uni2199', True)
 
 def post(font):
     prune(font); extra(font); auxiliary(font); carons(font); soft_dotted(font); separators(font); merge(font)
