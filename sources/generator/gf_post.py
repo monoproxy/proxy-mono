@@ -261,8 +261,40 @@ def merge(font, names=('uni221A', 'uni23CE')):
                 out.append((pts, [1] * len(pts)))
         add_glyph(font, n, from_contours(out))
 
+def quads(run):
+    """Explicit quadratics (p0, p1, p2) of a run of points on, off..., on (implied on-curves filled in)."""
+    out, p0 = [], run[0]
+    for a, b in zip(run[1:-1], run[2:]):
+        p2 = b if b is run[-1] else ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
+        out.append((p0, a, p2)); p0 = p2
+    return out
+
+def weld_partial(font, n='uni2202'):
+    """Geist draws the ∂ as a bowl, its counter and a tail laid over the bowl (contour_count). The tail's
+    outer edge already ends on a point of the bowl; its inner edge crosses the bowl's outline, so the two
+    are joined there: bowl up to the crossing, then the tail from the crossing round to the shared point.
+    The curves are split, not redrawn, so the shape is the same. The crossing moves from one curve segment
+    to the next as the weight grows, so each side is always written as the same number of pieces (a piece
+    is halved where there is one too few): the masters stay point-compatible."""
+    from fontTools.misc.bezierTools import curveCurveIntersections, splitQuadraticAtT
+    cs = contours(font['glyf'][n])
+    if [len(p) for p, _ in cs] != [12, 18, 14] or cs[0][0][-1] != cs[1][0][14]: return
+    (tail, _), (bowl, bfl), counter = cs
+    T, B = quads(tail[0:6]), quads(bowl[8:15])     # the tail's inner edge; the bowl's right side, top to the shared point
+    i, j, x = next((i, j, x) for i, a in enumerate(T) for j, b in enumerate(B) for x in curveCurveIntersections(a, b))
+    up = B[:j] + [splitQuadraticAtT(*B[j], x.t2)[0]]            # bowl, down to the crossing
+    while len(up) < 3: up[-1:] = splitQuadraticAtT(*up[-1], 0.5)
+    on = [splitQuadraticAtT(*T[i], x.t1)[1]] + T[i + 1:]         # tail, from the crossing on
+    while len(on) < 4: on[:1] = splitQuadraticAtT(*on[0], 0.5)
+    assert len(up) == 3 and len(on) == 4, n
+    mid = [(q, f) for seg in up + on for q, f in ((seg[1], 0), (seg[2], 1))]
+    pts = bowl[:9] + [(round(q[0]), round(q[1])) for q, _ in mid] + tail[6:11] + bowl[14:]
+    fl = bfl[:9] + [f for _, f in mid] + [1, 0, 0, 0, 0] + bfl[14:]
+    add_glyph(font, n, from_contours([(pts, fl), counter]))
+
 def post(font):
     prune(font); extra(font); auxiliary(font); carons(font); soft_dotted(font); separators(font); merge(font)
+    weld_partial(font)
     metrics(font)
     font['maxp'].recalc(font)
 
