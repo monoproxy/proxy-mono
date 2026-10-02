@@ -1,18 +1,8 @@
 # Proxy Mono
 
-![Proxy Mono: the wordmark at Black, the nine weights, the alphabet and the look-alike characters](documentation/hero.png)
-
 Proxy Mono is a monospaced typeface rebuilt by code, for code: one variable family, Thin (100) to
 Black (900), by [monoproxy](https://www.monoproxy.com.au). It is made to hold up as a display heading
 and still work all the way down to code in an editor.
-
-Specimen and type tester: https://www.monoproxy.com.au/lab/proxymono
-
-![Proxy Mono across the weight axis, 100 to 900](documentation/weight-axis.gif)
-
-![The nine weights, each with a line of code](documentation/weights.png)
-
-## What is new
 
 - **One stem across every glyph.** Every upright carries the same stem at each weight, on straight
   stems and on the sides of the bowls alike: 46 units at Thin, 110 at Regular, 197 at Black. Horizontals
@@ -26,6 +16,14 @@ Specimen and type tester: https://www.monoproxy.com.au/lab/proxymono
   this cell.
 
 Every number above is measured from the built fonts, not estimated.
+
+![Proxy Mono: the wordmark at Black, the nine weights, the alphabet and the look-alike characters](documentation/hero.png)
+
+Specimen and type tester: https://www.monoproxy.com.au/lab/proxymono
+
+![Proxy Mono across the weight axis, 100 to 900](documentation/weight-axis.gif)
+
+![The nine weights, each with a line of code](documentation/weights.png)
 
 ![Code at text size, and the look-alike characters at 11, 13 and 16 px](documentation/code.png)
 
