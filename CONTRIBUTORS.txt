@@ -5,5 +5,5 @@
 # Names should be added to this file as:
 # Name <email address>
 
-Danny Liang <hello@monoproxy.com.au>
-monoproxy <hello@monoproxy.com.au>
+Danny Liang <hello@monoproxy.studio>
+monoproxy <hello@monoproxy.studio>

@@ -5,8 +5,8 @@
 # Names should be added to this file as:
 # Name or Organization <email address>
 
-Danny Liang <hello@monoproxy.com.au>
-monoproxy <hello@monoproxy.com.au>
+Danny Liang <hello@monoproxy.studio>
+monoproxy <hello@monoproxy.studio>
 The Space Mono Project Authors
 The Martian Mono Project Authors
 Vercel, in collaboration with basement.studio
