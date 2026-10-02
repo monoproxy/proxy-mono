@@ -1,8 +1,8 @@
 # Proxy Mono
 
 Proxy Mono is a monospaced typeface rebuilt by code, for code: one variable family, Thin (100) to
-Black (900), by [monoproxy](https://www.monoproxy.com.au). It is made to hold up as a display heading
-and still work all the way down to code in an editor.
+Black (900), designed by Danny Liang at [monoproxy](https://www.monoproxy.com.au). It is made to hold
+up as a display heading and still work all the way down to code in an editor.
 
 - **One stem across every glyph.** Every upright carries the same stem at each weight, on straight
   stems and on the sides of the bowls alike: 46 units at Thin, 110 at Regular, 197 at Black. Horizontals

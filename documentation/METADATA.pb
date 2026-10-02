@@ -1,5 +1,5 @@
 name: "Proxy Mono"
-designer: "monoproxy"
+designer: "Danny Liang"
 license: "OFL"
 category: "MONOSPACE"
 date_added: "2026-10-01"

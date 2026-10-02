@@ -827,7 +827,7 @@ def build(stem, out, PLAIN):
         'styleName': 'Bold' if wcls == 700 else 'Regular',
         **({} if wcls in (400, 700) else {'typographicFamily': fam, 'typographicSubfamily': style}),
         'uniqueFontIdentifier': f'1.000;MNPX;ProxyMono-{style}', 'fullName': f'{fam} {style}',
-        'designer': 'monoproxy', 'designerURL': 'https://www.monoproxy.com.au', 'manufacturer': 'monoproxy',
+        'designer': 'Danny Liang', 'designerURL': 'https://www.monoproxy.com.au', 'manufacturer': 'monoproxy',
         'vendorURL': 'https://www.monoproxy.com.au',
         'version': 'Version 1.000', 'psName': f'ProxyMono-{style}',
         'licenseDescription': 'This Font Software is licensed under the SIL Open Font License, Version 1.1. '
