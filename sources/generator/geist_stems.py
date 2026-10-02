@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 from scipy.ndimage import distance_transform_edt as edt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-# beyond ASCII: the characters monoproxy.com.au actually sets (dashes, arrows, quotes, maths)
+# beyond ASCII: the characters monoproxy.studio actually sets (dashes, arrows, quotes, maths)
 EXTRA = [0x2014, 0x2013, 0x2192, 0x2197, 0x2191, 0x2193, 0x2190, 0x00D7, 0x00B0, 0x2248, 0x2265, 0x2260,
          0x2212, 0x2500, 0x2039, 0x203A]
 SRC = os.path.join(HERE, '..', 'upstream', 'GeistMono.ttf')

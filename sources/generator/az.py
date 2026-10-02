@@ -719,7 +719,7 @@ def build(stem, out, PLAIN):
     GS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'geist_stems.json')))
     mlo_w, mhi_w = ('100', '400') if llo is g1 else ('400', '900')
     target_g = stem / gsc
-    # beyond ASCII: what monoproxy.com.au sets. Curly quotes, the superscript 2 and the bullet stay on the
+    # beyond ASCII: what monoproxy.studio sets. Curly quotes, the superscript 2 and the bullet stay on the
     # n-based calibration with the comma family; the middle dot and ellipsis use the period's square.
     SITE_EXTRA = [0x2014, 0x2013, 0x2192, 0x2197, 0x2191, 0x2193, 0x2190, 0x00D7, 0x00B0, 0x2248, 0x2265,
                   0x2260, 0x2212, 0x2500, 0x2039, 0x203A, 0x201C, 0x201D, 0x2018, 0x2019, 0x00B2, 0x25CF,
@@ -831,8 +831,8 @@ def build(stem, out, PLAIN):
         'styleName': 'Bold' if wcls == 700 else 'Regular',
         **({} if wcls in (400, 700) else {'typographicFamily': fam, 'typographicSubfamily': style}),
         'uniqueFontIdentifier': f'1.000;MNPX;ProxyMono-{style}', 'fullName': f'{fam} {style}',
-        'designer': 'Danny Liang', 'designerURL': 'https://www.monoproxy.com.au', 'manufacturer': 'monoproxy',
-        'vendorURL': 'https://www.monoproxy.com.au',
+        'designer': 'Danny Liang', 'designerURL': 'https://www.monoproxy.studio', 'manufacturer': 'monoproxy',
+        'vendorURL': 'https://www.monoproxy.studio',
         'version': 'Version 1.000', 'psName': f'ProxyMono-{style}',
         'licenseDescription': 'This Font Software is licensed under the SIL Open Font License, Version 1.1. '
                               'This license is available with a FAQ at: https://openfontlicense.org',
