@@ -23,7 +23,7 @@
     <key>openTypeNameLicenseURL</key>
     <string>https://openfontlicense.org</string>
     <key>openTypeOS2StrikeoutPosition</key>
-    <integer>330</integer>
+    <integer>360</integer>
     <key>openTypeOS2StrikeoutSize</key>
     <integer>60</integer>
     <key>openTypeOS2TypoAscender</key>

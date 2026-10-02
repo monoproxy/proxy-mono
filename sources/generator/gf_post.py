@@ -244,10 +244,10 @@ def metrics(font):
     os2.fsSelection |= (1 << 7) | (1 << 8)   # USE_TYPO_METRICS, WWS (names are weight/width/slope only)
     # underline, strikeout and sub/superscript sizes: FontBuilder leaves them all 0, which draws no line.
     # One value for every weight (the variable font carries no MVAR). The underline sits inside the
-    # descender (top -90, bottom -150); the strikeout is centred on half the x-height.
+    # descender (top -90, bottom -150); the strikeout is centred on the dashes (- – — sit at ~330, every weight).
     post = font['post']
     post.underlinePosition, post.underlineThickness = UL_POS, UL_SIZE
-    os2.yStrikeoutSize, os2.yStrikeoutPosition = UL_SIZE, 300 + UL_SIZE // 2
+    os2.yStrikeoutSize, os2.yStrikeoutPosition = UL_SIZE, 330 + UL_SIZE // 2
     os2.ySubscriptXSize = os2.ySuperscriptXSize = 650
     os2.ySubscriptYSize = os2.ySuperscriptYSize = 600
     os2.ySubscriptXOffset = os2.ySuperscriptXOffset = 0
