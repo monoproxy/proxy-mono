@@ -83,7 +83,7 @@ Current result: 0 failures, 3 warnings.
 - `vendor_id`: MNPX is not yet registered with Microsoft.
 - `unreachable_subsetting`: the combining marks belong to no Google Fonts subset, but the
   language-shaping checks for Czech, Danish and Vietnamese fail without them, so they stay.
-- `contour_count`: three symbols (⁄ ∂ ⓿) have a different contour count from the reference fonts.
+- `contour_count`: one symbol (⓿) has a different contour count from the reference fonts.
 
 ## Upstream
 

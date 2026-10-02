@@ -490,6 +490,10 @@ CAL_AS = {0x0131: ord('i'), 0x0237: ord('j'), 0x00E6: ord('e'), 0x0153: ord('e')
           0x00FE: ord('p'), 0x00DF: ord('h'), 0x00C6: ord('E'), 0x0152: ord('E'), 0x00DE: ord('P'),
           0x1E9E: ord('B'), 0x0111: ord('d'), 0x0127: ord('h'), 0x010F: ord('d'), 0x013E: ord('l'),
           0x0165: ord('t'), 0x00F8: ord('o')}
+# The double acute is not a base letter plus a mark but two acutes set side by side. compose_core() draws
+# the first component where our own glyph sits and ignores its offset, which put the two acutes on top of
+# each other. It takes Geist's outline as drawn.
+NOT_COMPOSED = {0x02DD, 0x030B}
 
 def core_codepoints():
     from fontTools import agl
@@ -523,7 +527,7 @@ def core_plan(gei, have):
     base_ok = have | set(todo)
     for c in todo:
         g = G[gcm[c]]
-        if c not in (0x00AB, 0x00BB) and g.isComposite() and rev.get(g.components[0].glyphName) in base_ok and not G[g.components[0].glyphName].isComposite() \
+        if c not in (0x00AB, 0x00BB) and c not in NOT_COMPOSED and g.isComposite() and rev.get(g.components[0].glyphName) in base_ok and not G[g.components[0].glyphName].isComposite() \
                 and all(is_mark(k.glyphName) for k in g.components[1:]):
             comp.append(c)
         else:
@@ -713,8 +717,8 @@ def build(stem, out, PLAIN):
     extra = {}
     # every Geist glyph is calibrated by its OWN stem (geist_stems.json, measured at Geist's 100/400/900
     # masters), not the n's: figures ran ~1.06x, punctuation 0.5-0.9x, m v w x y ~0.9x.
-    # Extrapolation is held to [-0.3, 1.5] of the master pair; a glyph Geist draws too light to
-    # get there (e.g. @, %) is thickened by offsetting its outline, as far as its counters survive.
+    # Extrapolation is held to [-0.3, 1.5] of the master pair (EXTRAP lists the symbols that may go
+    # further); a glyph that still falls short is thickened by offsetting its outline in the static fonts.
     import json
     GS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'geist_stems.json')))
     mlo_w, mhi_w = ('100', '400') if llo is g1 else ('400', '900')
@@ -729,7 +733,15 @@ def build(stem, out, PLAIN):
     # up (inner a near solid, the ring out of its cell) and the offsetting then filled it in at ExtraBold.
     # On the n's calibration it is Geist's own @ at the matching weight, the same in static and variable.
     N_BASED = {ord('@'), ord('.'), ord(':'), ord(','), ord(';'), ord('$'), ord('z'), 0x201C, 0x201D, 0x2018, 0x2019,
-               0x00B2, 0x25CF, 0x00B7, 0x2026}
+               0x00B2, 0x25CF, 0x00B7, 0x2026,
+               # % * ~ and the almost-equal follow the n for the same reason as the @: Geist draws them light
+               # (their own stem asks for 2.2 to 3.4x past the Black master), so they stopped at the 1.5
+               # limit from SemiBold or Bold up and the offsetting then fused the % and blunted the rest
+               ord('%'), ord('*'), ord('~'), 0x2248}
+    # Straight-sided symbols (and the degree ring) stay clean well past the Black master, so they may
+    # extrapolate as far as their own stem asks (1.6 to 2.2 at Black) instead of stopping at 1.5: they
+    # keep gaining weight to Black, the same in the static and the variable fonts, with no offsetting.
+    EXTRAP = dict.fromkeys([ord('='), ord('^'), 0x00B0, 0x2500, 0x2190, 0x2191, 0x2192, 0x2193, 0x2197, 0x2265], 2.3)
     core_out, core_comp = core_plan(gei, set(range(32, 127)) | set(SITE_EXTRA))
     for cp in list(range(33, 65)) + list(range(91, 127)) + SITE_EXTRA + core_out:
         name = 'uni%04X' % cp
@@ -749,9 +761,14 @@ def build(stem, out, PLAIN):
         # the dot family . : , ; stays on one calibration so the comma's head = the period's dot
         # (the ; mixed a colon dot with a thickened comma and looked wrong)
         if cp not in N_BASED and wlo and whi and whi - wlo > 1:
-            kg = min(max((target_g - wlo) / (whi - wlo), -0.3), 1.5)
+            kg = min(max((target_g - wlo) / (whi - wlo), -0.3), EXTRAP.get(cp, 1.5))
             short = target_g - (wlo + kg * (whi - wlo))
         ops = [(op, [(a[0] + kg * (b[0] - a[0]), a[1] + kg * (b[1] - a[1])) for a, b in zip(pa, pb)]) for (op, pa), (_, pb) in zip(r4.value, r9.value)]
+        if cp in (0x2018, 0x201C):
+            # Geist hangs its opening quotes above the cap line (731-763 of 710); the closing ones, the
+            # comma lifted, top out on it. Lower the opening quotes to the same line.
+            dy = 800 / gsc - max(p[1] for _, pts in ops for p in pts)
+            ops = [(op, [(p[0], p[1] + dy) for p in pts]) for op, pts in ops]
         if chr(cp) in CROTCH_GLYPHS:
             ops = shallow_crotch(ops)
         if chr(cp) in ARCH_GLYPHS:

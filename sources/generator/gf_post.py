@@ -155,12 +155,17 @@ def auxiliary(font):
         m = mark_of(src, ymin); b = cs(base)
         add_glyph(font, 'uni%04X' % cp, from_contours(b + shifted(m, centre(b) - centre(m), 0)), cp)
     add_glyph(font, 'uni02BB', from_contours(cs('uni2018')), 0x02BB)
-    # long s: the f with its crossbar folded onto the stem (same points, so the masters stay compatible)
+    # modifier apostrophe: the closing quote. Geist builds it from the comma, lifted; composed as a letter
+    # plus marks it lost the lift and sat on the baseline as a second comma
+    add_glyph(font, 'uni02BC', from_contours(cs('uni2019')), 0x02BC)
+    # long s: the f with its crossbar folded onto the stem (same points, so the masters stay compatible).
+    # The crossbar is the f's own second contour, so only that contour is folded: finding it by height
+    # caught the underside of the hook as well once the two came close (Bold up) and cut the arm to a wedge.
     (x0, x1), = runs(font, 'uni0066', 300)[:1]
-    ys = [y for y in range(320, 760, 4) if any(a < x0 - 2 or b > x1 + 2 for a, b in runs(font, 'uni0066', y)[:1])]
-    yb0, yb1 = (min(ys) - 4, max(y for y in ys if y < 680) + 4) if ys else (0, -1)
-    lf = [([((x0 if x < x0 else x1 if x > x1 else x) if yb0 <= y <= yb1 else x, y) for x, y in pts], fl) for pts, fl in cs('uni0066')]
-    add_glyph(font, 'uni017F', from_contours(lf), 0x017F)
+    stem_c, bar = cs('uni0066')
+    assert len(bar[0]) == 4 and len(stem_c[0]) > 4, 'f: stem and hook, then the crossbar'
+    bar = ([(min(max(x, x0), x1), y) for x, y in bar[0]], bar[1])
+    add_glyph(font, 'uni017F', from_contours([stem_c, bar]), 0x017F)
     ezh(font)
 
 def ezh(font):
@@ -292,9 +297,36 @@ def weld_partial(font, n='uni2202'):
     fl = bfl[:9] + [f for _, f in mid] + [1, 0, 0, 0, 0] + bfl[14:]
     add_glyph(font, n, from_contours([(pts, fl), counter]))
 
+def fraction_slash(font, n='uni2044'):
+    """Geist draws the fraction slash as the two ends of a bar, one under the numerator and one over the
+    denominator of its precomposed fractions, set apart sideways; alone it reads as a broken slash. The
+    standalone slash is the lower piece run on up to the cap line: the same stroke, at the same angle and
+    thickness as the bar in the fractions, centred in the cell. One contour of four points in every master.
+    The precomposed fractions are outlines of their own and keep the two pieces."""
+    cs = contours(font['glyf'][n])
+    if len(cs) != 2 or any(len(p) != 4 or not all(f & 1 for f in fl) for p, fl in cs): return
+    low = min(cs, key=lambda c: ybox(c[0])[1])[0]
+    top = max(y for c in cs for _, y in c[0])
+    bot = sorted((p for p in low if p[1] == min(q[1] for q in low)))        # the foot, left then right
+    up = sorted((p for p in low if p[1] == max(q[1] for q in low)))
+    w = bot[1][0] - bot[0][0]; y0 = bot[0][1]
+    run = (up[0][0] - bot[0][0]) / (up[0][1] - y0) * (top - y0)              # sideways travel, foot to cap
+    xl = round(350 - (run + w) / 2)
+    pts = [(xl, y0), (xl + round(run), top), (xl + round(run) + w, top), (xl + w, y0)]
+    add_glyph(font, n, from_contours([(pts, [1, 1, 1, 1])]))
+
+def mirrored(font, pairs=(('uni2265', 'uni2264'), ('uni2197', 'uni2196'))):
+    """Less-or-equal and the north-west arrow are their twins turned over, left to right, in the cell.
+    Geist draws each pair as mirror images, but only one of each was calibrated by its own stem, so the
+    other came out up to a quarter lighter and smaller."""
+    glyf = font['glyf']
+    for src, dst in pairs:
+        add_glyph(font, dst, from_contours([([(700 - x, y) for x, y in reversed(pts)], list(reversed(fl)))
+                                            for pts, fl in contours(glyf[src])]))
+
 def post(font):
     prune(font); extra(font); auxiliary(font); carons(font); soft_dotted(font); separators(font); merge(font)
-    weld_partial(font)
+    weld_partial(font); fraction_slash(font); mirrored(font)
     metrics(font)
     font['maxp'].recalc(font)
 
