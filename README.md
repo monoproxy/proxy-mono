@@ -12,16 +12,18 @@ Specimen and type tester: https://www.monoproxy.com.au/lab/proxymono
 
 ![The nine weights, each with a line of code](documentation/weights.png)
 
-## What makes it one family
+## What is new
 
-Proxy Mono is a remix of three open-source monospaces, rebuilt so that it reads as one design:
-
-- **One cell.** Every character is 700 units wide on a 1000-unit em; cap height 800, x-height 600.
-- **One stem.** Every upright carries the same stem at each weight, on straight stems and on the sides
-  of the bowls alike: 46 units at Thin, 110 at Regular, 197 at Black. Horizontals and arches run thinner
-  so they read as the same weight (at Regular the bar of the H is 103, the top of the O 102).
-- **One bowl.** C, G, O and Q share the same oval: flat sides, round ends.
-- **No ink traps**, a slashed zero, round descenders, and an M and W whose strokes run the full cap height.
+- **One stem across every glyph.** Every upright carries the same stem at each weight, on straight
+  stems and on the sides of the bowls alike: 46 units at Thin, 110 at Regular, 197 at Black. Horizontals
+  and arches run thinner so they read as the same weight (at Regular the bar of the H is 103, the top of
+  the O 102).
+- **M, N, W, G and Q rebuilt.** Every stroke of the M, N and W is one stem and runs the full cap height,
+  up to Black. C, G, O and Q share one oval: flat sides, round ends.
+- **No ink traps**, a slashed zero and round descenders.
+- **Thin (100) to Black (900) on one cell.** Every character is 700 units wide on a 1000-unit em, cap
+  height 800, x-height 600, at all nine weights. None of the fonts it starts from covers that range on
+  this cell.
 
 Every number above is measured from the built fonts, not estimated.
 
@@ -35,6 +37,8 @@ Vietnamese, and a wide set of symbols, arrows, currencies and fractions.
 ![Accented Latin across the nine weights](documentation/specimen.png)
 
 ## What changed from the upstream fonts
+
+Proxy Mono starts from three open-source monospaces and is rebuilt so that it reads as one design.
 
 | Part | Taken from | What was changed |
 |---|---|---|
@@ -59,7 +63,16 @@ make build   # fonts/variable, fonts/ttf and fonts/webfonts
 make test    # fontspector, Google Fonts profile
 ```
 
-Python 3.12. `make build` creates the virtualenv from `requirements.txt`.
+Python 3.12. `make build` creates the virtualenv from `requirements.txt`; `sh sources/build.sh` does the
+same in one command.
+
+## Sources
+
+- `sources/generator/`: the scripts that build the fonts. This is the source to edit.
+- `sources/upstream/`: the open-source fonts they start from. Space Mono as UFOs, Martian Mono and
+  Geist Mono as published.
+- `sources/masters/`: the nine masters as UFOs with a designspace, exactly as they go into the variable
+  font, so the outlines can be opened in a font editor. They are written on every build.
 
 ## Quality assurance
 

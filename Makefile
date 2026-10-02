@@ -1,5 +1,5 @@
 PYTHON ?= python3
-SOURCES=$(wildcard sources/generator/*.py) $(wildcard sources/upstream/*.ttf) sources/upstream/martian.woff2
+SOURCES=$(wildcard sources/generator/*.py) $(wildcard sources/upstream/*.ttf)
 FAMILY=Proxy Mono
 # stem (units) -> style. One static font per weight; see sources/generator/az.py
 WEIGHTS=46:Thin 68:ExtraLight 96:Light 110:Regular 126:Medium 144:SemiBold 162:Bold 180:ExtraBold 197:Black

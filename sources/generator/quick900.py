@@ -96,7 +96,7 @@ def build(stem, out):
         else:
             glyphs[g] = ('sm', blend(a, b, min(t, TMAX.get(g, 99))))
     # Martian P R: instances at 400 and 800, extrapolate by stem
-    mar = TTFont('../upstream/martian.woff2')
+    mar = instantiateVariableFont(TTFont('../upstream/MartianMono[wdth,wght].ttf'), {'wdth': 100})
     i400 = instantiateVariableFont(copy.deepcopy(mar), {'wght': 400})
     i800 = instantiateVariableFont(copy.deepcopy(mar), {'wght': 800})
     def pstem(f):

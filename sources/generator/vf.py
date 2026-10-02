@@ -41,6 +41,43 @@ def align_starts(F, ref):
                 pts += [P[(i + bk) % n] for i in range(n)]; flags += [Fl[(i + bk) % n] for i in range(n)]; s = end + 1
             G.coordinates = type(c)(pts); G.flags = type(fl)(flags)
 
+def export_ufos(F, out='../masters'):
+    """The nine masters as UFOs and a designspace (sources/masters), exactly as they go into the variable
+    font, so the outlines can be opened in a font editor. Generated on every build: edit the generator,
+    not these files."""
+    import shutil, ufoLib2
+    from fontTools.pens.cu2quPen import Cu2QuPen  # noqa: F401
+    shutil.rmtree(out, ignore_errors=True); os.makedirs(out)
+    ds = DesignSpaceDocument()
+    ax = AxisDescriptor(); ax.tag = 'wght'; ax.name = 'Weight'; ax.minimum = 100; ax.default = 400; ax.maximum = 900
+    ds.addAxis(ax)
+    for i, f in enumerate(F):
+        u = ufoLib2.Font(); inf = u.info; os2 = f['OS/2']; hh = f['hhea']
+        inf.familyName = 'Proxy Mono'; inf.styleName = STYLES[i]; inf.unitsPerEm = f['head'].unitsPerEm
+        inf.versionMajor = 1; inf.versionMinor = 0
+        inf.ascender = os2.sTypoAscender; inf.descender = os2.sTypoDescender
+        inf.capHeight = os2.sCapHeight; inf.xHeight = os2.sxHeight
+        inf.openTypeOS2TypoAscender = os2.sTypoAscender; inf.openTypeOS2TypoDescender = os2.sTypoDescender
+        inf.openTypeOS2TypoLineGap = os2.sTypoLineGap
+        inf.openTypeOS2WinAscent = os2.usWinAscent; inf.openTypeOS2WinDescent = os2.usWinDescent
+        inf.openTypeHheaAscender = hh.ascent; inf.openTypeHheaDescender = hh.descent; inf.openTypeHheaLineGap = hh.lineGap
+        inf.openTypeOS2WeightClass = (i + 1) * 100; inf.openTypeOS2VendorID = os2.achVendID
+        inf.postscriptIsFixedPitch = True
+        inf.copyright = f['name'].getDebugName(0); inf.openTypeNameLicense = f['name'].getDebugName(13)
+        inf.openTypeNameLicenseURL = f['name'].getDebugName(14)
+        uni = {}
+        for cp, gn in sorted(f.getBestCmap().items()): uni.setdefault(gn, []).append(cp)
+        gs = f.getGlyphSet()
+        for gn in f.getGlyphOrder():
+            g = u.newGlyph(gn); g.width = f['hmtx'][gn][0]; g.unicodes = uni.get(gn, [])
+            gs[gn].draw(g.getPen())
+        u.lib['public.glyphOrder'] = f.getGlyphOrder()
+        u.lib['com.github.googlei18n.ufo2ft.filters'] = []
+        name = f'ProxyMono-{STYLES[i]}.ufo'; u.save(os.path.join(out, name), overwrite=True)
+        sd = SourceDescriptor(); sd.filename = name; sd.familyName = 'Proxy Mono'; sd.styleName = STYLES[i]
+        sd.location = {'Weight': (i + 1) * 100}; ds.addSource(sd)
+    ds.write(os.path.join(out, 'ProxyMono.designspace'))
+
 def main(src, out):
     paths = [os.path.join(src, f'ProxyMono-{s}.ttf') for s in STYLES]
     F = [TTFont(p) for p in paths]
@@ -61,6 +98,7 @@ def main(src, out):
             F[i]['hmtx'][g] = (700, new.xMin)
             print(f'{g}: master {STYLES[i]} rebuilt from {STYLES[a]}/{STYLES[b]}')
     align_starts(F, ref)
+    export_ufos(F)
     ds = DesignSpaceDocument()
     ax = AxisDescriptor(); ax.tag = 'wght'; ax.name = 'Weight'; ax.minimum = 100; ax.default = 400; ax.maximum = 900
     ds.addAxis(ax)

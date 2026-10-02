@@ -655,7 +655,8 @@ def build(stem, out, PLAIN):
                 for i in range(38, 45): c[i][0] += d
                 c[45][0] += d / 2
             glyphs[g] = ('sm', [[tuple(p) for p in c]])
-    mar = TTFont('../upstream/martian.woff2')
+    # Martian Mono 1.000 as published (github.com/google/fonts, ofl/martianmono), at its 700-unit width
+    mar = instantiateVariableFont(TTFont('../upstream/MartianMono[wdth,wght].ttf'), {'wdth': 100})
     i400 = instantiateVariableFont(copy.deepcopy(mar), {'wght': 400})
     i800 = instantiateVariableFont(copy.deepcopy(mar), {'wght': 800})
     def pstem(f):
