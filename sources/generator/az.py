@@ -724,7 +724,11 @@ def build(stem, out, PLAIN):
     SITE_EXTRA = [0x2014, 0x2013, 0x2192, 0x2197, 0x2191, 0x2193, 0x2190, 0x00D7, 0x00B0, 0x2248, 0x2265,
                   0x2260, 0x2212, 0x2500, 0x2039, 0x203A, 0x201C, 0x201D, 0x2018, 0x2019, 0x00B2, 0x25CF,
                   0x00B7, 0x2026]
-    N_BASED = {ord('.'), ord(':'), ord(','), ord(';'), ord('$'), ord('z'), 0x201C, 0x201D, 0x2018, 0x2019,
+    # The @ also follows the n: Geist's ring only gains 10 units from 400 to 900 while its inner a gains
+    # the full weight, so calibrating by the ring pushed the glyph 1.5x past the Black master from Light
+    # up (inner a near solid, the ring out of its cell) and the offsetting then filled it in at ExtraBold.
+    # On the n's calibration it is Geist's own @ at the matching weight, the same in static and variable.
+    N_BASED = {ord('@'), ord('.'), ord(':'), ord(','), ord(';'), ord('$'), ord('z'), 0x201C, 0x201D, 0x2018, 0x2019,
                0x00B2, 0x25CF, 0x00B7, 0x2026}
     core_out, core_comp = core_plan(gei, set(range(32, 127)) | set(SITE_EXTRA))
     for cp in list(range(33, 65)) + list(range(91, 127)) + SITE_EXTRA + core_out:
