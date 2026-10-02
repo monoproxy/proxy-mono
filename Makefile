@@ -30,6 +30,12 @@ build.stamp: venv $(SOURCES)
 	  VF=1 python3 az.py $${w%%:*} ../../build/masters/ProxyMono-$${w##*:}.ttf plain || exit 1; done && \
 	  python3 vf.py ../../build/masters "../../fonts/variable/ProxyMono[wght].ttf" && \
 	  mv "../../fonts/variable/ProxyMono[wght].woff2" ../../fonts/webfonts/
+	# the same masters with a slant axis (0 to 10 degrees, an oblique). Kept out of fonts/variable: it is
+	# not part of the Google Fonts submission, which is weight only
+	mkdir -p fonts/slant
+	. venv/bin/activate; cd sources/generator && \
+	  SLANT=10 python3 vf.py ../../build/masters "../../fonts/slant/ProxyMono[slnt,wght].ttf" && \
+	  mv "../../fonts/slant/ProxyMono[slnt,wght].woff2" ../../fonts/webfonts/
 	touch build.stamp
 
 venv/touchfile: requirements.txt

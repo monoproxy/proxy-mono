@@ -128,7 +128,7 @@ def main(src, out):
         if rec.nameID in (16, 17): name.removeNames(nameID=rec.nameID)
     name.setName('Proxy Mono', 1, 3, 1, 0x409); name.setName('Regular', 2, 3, 1, 0x409)
     name.setName('Proxy Mono Regular', 4, 3, 1, 0x409); name.setName('ProxyMono-Regular', 6, 3, 1, 0x409)
-    name.setName('1.000;MNPX;ProxyMono[wght]', 3, 3, 1, 0x409)
+    name.setName('1.000;MNPX;ProxyMono[slnt,wght]' if SLANT else '1.000;MNPX;ProxyMono[wght]', 3, 3, 1, 0x409)
     from fontTools.varLib.instancer.names import updateNameTable  # noqa: F401 (ensures names module is present)
     from fontTools.otlLib.builder import buildStatTable
     fvar = vf['fvar']
