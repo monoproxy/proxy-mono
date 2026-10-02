@@ -87,6 +87,8 @@ Current result: 0 failures, 3 warnings.
 - `vendor_id`: MNPX is not yet registered with Microsoft.
 - `unreachable_subsetting`: the combining marks belong to no Google Fonts subset, but the
   language-shaping checks for Czech, Danish and Vietnamese fail without them, so they stay.
+  fontspector 1.8 also lists about 100 arrows, math signs, fractions and circled digits here, although
+  `METADATA.pb` declares the `math` and `symbols` subsets; Font Bakery lists only the marks.
 - `contour_count`: one symbol (⓿) has a different contour count from the reference fonts.
 
 ## Upstream
@@ -96,7 +98,7 @@ Proxy Mono is a derivative of these SIL Open Font License fonts. Their notices a
 
 - Space Mono: Copyright 2016 The Space Mono Project Authors
 - Martian Mono: Copyright 2021 The Martian Mono Project Authors
-- Geist Mono: Copyright 2023 Vercel, in collaboration with basement.studio
+- Geist Mono: Copyright 2024 The Geist Project Authors
 
 ## License
 

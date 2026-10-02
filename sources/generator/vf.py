@@ -63,6 +63,8 @@ def export_ufos(F, out='../masters'):
         inf.openTypeHheaAscender = hh.ascent; inf.openTypeHheaDescender = hh.descent; inf.openTypeHheaLineGap = hh.lineGap
         inf.openTypeOS2WeightClass = (i + 1) * 100; inf.openTypeOS2VendorID = os2.achVendID
         inf.postscriptIsFixedPitch = True
+        inf.postscriptUnderlinePosition = f['post'].underlinePosition; inf.postscriptUnderlineThickness = f['post'].underlineThickness
+        inf.openTypeOS2StrikeoutSize = os2.yStrikeoutSize; inf.openTypeOS2StrikeoutPosition = os2.yStrikeoutPosition
         inf.copyright = f['name'].getDebugName(0); inf.openTypeNameLicense = f['name'].getDebugName(13)
         inf.openTypeNameLicenseURL = f['name'].getDebugName(14)
         uni = {}
@@ -149,6 +151,7 @@ def main(src, out):
     from fontTools.ttLib import newTable
     avar = newTable('avar'); avar.segments = {a.axisTag: {-1.0: -1.0, 0.0: 0.0, 1.0: 1.0} for a in vf['fvar'].axes}
     vf['avar'] = avar
+    import gf_post; gf_post.windows_names(vf)
     vf.save(out)
     import gf_post; gf_post.hmetrics3(out)
     w = TTFont(out); w.flavor = 'woff2'; w.save(out[:-4] + '.woff2')

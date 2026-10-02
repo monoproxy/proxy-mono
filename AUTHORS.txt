@@ -9,4 +9,4 @@ Danny Liang <hello@monoproxy.studio>
 monoproxy <hello@monoproxy.studio>
 The Space Mono Project Authors
 The Martian Mono Project Authors
-Vercel, in collaboration with basement.studio
+The Geist Project Authors

@@ -72,6 +72,3 @@ update: venv
 	# the `--resolver` flag below.
 	venv/bin/pip-compile --upgrade --verbose --resolver=backtracking requirements.in
 	venv/bin/pip-sync requirements.txt
-
-	git commit -m "Update requirements" requirements.txt
-	git push

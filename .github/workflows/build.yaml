@@ -9,7 +9,8 @@ on:
     tags:
       - "*"
 
-permissions: write-all
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -94,6 +95,8 @@ jobs:
     if: ${{ github.ref_type == 'tag' }}
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       ZIP_NAME: ${{ needs.build.outputs.zip_name }}
       GH_TOKEN: ${{ github.token }}
