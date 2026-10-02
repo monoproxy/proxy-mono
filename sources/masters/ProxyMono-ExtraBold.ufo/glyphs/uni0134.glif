@@ -28,14 +28,14 @@
       <point x="427" y="-20"/>
     </contour>
     <contour>
-      <point x="354" y="856" type="line"/>
-      <point x="465" y="1038" type="line"/>
-      <point x="617" y="1038" type="line"/>
-      <point x="729" y="856" type="line"/>
-      <point x="602" y="856" type="line"/>
-      <point x="526" y="975" type="line"/>
-      <point x="556" y="975" type="line"/>
-      <point x="480" y="856" type="line"/>
+      <point x="325" y="856" type="line"/>
+      <point x="437" y="1038" type="line"/>
+      <point x="588" y="1038" type="line"/>
+      <point x="700" y="856" type="line"/>
+      <point x="573" y="856" type="line"/>
+      <point x="498" y="975" type="line"/>
+      <point x="527" y="975" type="line"/>
+      <point x="451" y="856" type="line"/>
     </contour>
   </outline>
 </glyph>

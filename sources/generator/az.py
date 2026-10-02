@@ -174,18 +174,20 @@ def unify_dots(extra, s=None):
         segs = [cut] if cut.geom_type == 'LineString' else list(cut.geoms)
         seg = max(segs, key=lambda g: g.length)
         return (seg.bounds[0] + seg.bounds[2]) / 2
-    for cp in '.:;!?ij,\u00b7\u2026':
+    # PROTOTYPE (item C): the division sign's two dots join the family (they were Geist's round dots)
+    for cp in '.:;!?ij,\u00b7\u2026' + ('' if os.environ.get('DIVIDE_ROUND') else '\u00f7'):
         name = 'uni%04X' % ord(cp)
         if extra[name][0] != 'rec': continue
         new = []
         for c in contours(extra[name][1]):
             x0, y0, x1, y1 = bbox(c); w, h = x1 - x0, y1 - y0
             npts = sum(len(pts) for _, pts in c)
-            if npts <= 12 and 0.5 * ow <= w <= 1.8 * ow and 0.5 * oh <= h <= 1.8 * oh:
+            div = cp == '\u00f7'                  # its dots are round (more points) and float: keep their centres
+            if npts <= (16 if div else 12) and 0.5 * ow <= w <= 1.8 * ow and 0.5 * oh <= h <= 1.8 * oh:
                 cx = (x0 + x1) / 2
                 if cp in 'ij' and s:
                     cx = stem_cx(extra[name][1]) or cx
-                by = py0 if abs(y0 - py0) < 0.3 * oh else (y0 + y1) / 2 - dh / 2
+                by = py0 if abs(y0 - py0) < 0.3 * oh and not div else (y0 + y1) / 2 - dh / 2
                 a, b = cx - dw / 2, cx + dw / 2
                 c = [('moveTo', [(a, by)]), ('lineTo', [(a, by + dh)]), ('lineTo', [(b, by + dh)]),
                      ('lineTo', [(b, by)]), ('closePath', [])]          # clockwise: TrueType outer
@@ -530,8 +532,22 @@ def compose_core(fb, order, metrics, cmap, comp, llo, lhi, kl, gsc):
             mc = (mb[0] + mb[2]) / 2
             f = (mc - gx0) / (gx1 - gx0) if gx1 > gx0 else 0.5
             dx = bx0 + f * (bx1 - bx0) - mc
-            tp = TransformPen(pen, (1, 0, 0, 1, dx, 0))
-            for op, pts in ops: getattr(tp, op)(*pts)
+            # PROTOTYPE (item D): a mark contour that would leave the 0..700 cell is moved back just far
+            # enough to stay inside it (the acute or grave of a Vietnamese stack, J's circumflex, k's caron,
+            # A's ogonek, D's bar). Each contour on its own, so the circumflex of a stack stays centred.
+            # Coordinates only: the masters keep their points. CELL_CLAMP=0 turns it off.
+            cont, cur = [], []
+            for op, pts in ops:
+                cur.append((op, pts))
+                if op in ('closePath', 'endPath'): cont.append(cur); cur = []
+            for cc in cont:
+                xs = [p[0] + dx for _, pts in cc for p in pts]
+                ex = 0.0
+                if os.environ.get('CELL_CLAMP', '1') != '0' and xs:
+                    if max(xs) > 700: ex = 700 - max(xs)
+                    elif min(xs) < 0: ex = -min(xs)
+                tp = TransformPen(pen, (1, 0, 0, 1, dx + ex, 0))
+                for op, pts in cc: getattr(tp, op)(*pts)
         name = 'uni%04X' % c
         g = pen.glyph(); g.recalcBounds(glyf)
         ttg[name] = g; metrics[name] = (700, g.xMin if g.numberOfContours else 0); cmap[c] = name; new.append(name)

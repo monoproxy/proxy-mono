@@ -209,8 +209,21 @@ MW_OPEN_HEAVY = 0.6   # ...but from 700 up the M/W notches open to 0.6 x stem, f
                       # M and W stop reading as solid blocks
 
 
-def _heavy_target(s):
-    u = min(max((s * (700 / 612) - 144) / (162 - 144), 0.0), 1.0)
+# PROTOTYPE (borderline audit, item A): the weights between which the 0.6 opening fades in. 144-162 is the
+# shipped behaviour (SemiBold keeps Space Mono's full-height counters). M_HEAVY_FADE=126:144 gives the
+# SemiBold M the same 0.6 x stem opening as the Bold; Medium and lighter already open wider than that, and
+# Bold and heavier are past the end of the fade, so only the SemiBold master moves.
+FADES = {'MW_HEAVY_FADE': '144:162', 'M_HEAVY_FADE': '126:144', 'W_RISE_FADE': '126:144'}
+
+
+def _fade(env):
+    lo, hi = (float(x) for x in (os.environ.get(env) or FADES[env]).split(':'))
+    return lo, hi
+
+
+def _heavy_target(s, env='MW_HEAVY_FADE'):
+    lo, hi = _fade(env)
+    u = min(max((s * (700 / 612) - lo) / (hi - lo), 0.0), 1.0)
     return float(os.environ.get('MW_OPEN_HEAVY', MW_OPEN_HEAVY)) * u * s
 
 
@@ -238,7 +251,7 @@ def m_full(s, sa=None):
     sa = s if sa is None else sa                   # arm thickness (stems stay s)
     t = _t(s); h = _hbar(t)
     xL = m_xl(t); xi = xL + s; D = CX - xi
-    target = max(min(MW_OPEN * s, MW_OPEN_ABS), _heavy_target(s))
+    target = max(min(MW_OPEN * s, MW_OPEN_ABS), _heavy_target(s, 'M_HEAVY_FADE'))
     f = lambda a: D * math.cos(a) - (C - 2 * h) * math.sin(a) - sa
     if f(0.0) > 0:
         th = solve(f, 0.0, 1.2)
@@ -264,6 +277,7 @@ def w_full(s, si=None):
     heavy form does."""
     t = _t(s)
     target = max(min(MW_OPEN * s, MW_OPEN_ABS), _heavy_target(s))
+    rise = os.environ.get('W_RISE_FADE', FADES['W_RISE_FADE'])   # PROTOTYPE; W_RISE_FADE= (empty) turns it off
     h = _hbar(t)
     xo7_0 = 11 - 3 * t
     slant = 71 - 47 * min(t, W_SLANT_T)
@@ -283,6 +297,18 @@ def w_full(s, si=None):
         xf = CX - (C - yv) * math.tan(ph); xp = xv + (C - yv) * math.tan(ph)
         return xv, xf, xp, min(xp - (xo7 + w), 2 * (CX - xf))
 
+    if rise and s * (700 / 612) < 162 - 1e-6:
+        # PROTOTYPE: below Bold, at Space Mono's own width, shorten the counters only as far as it takes
+        # for the narrower opening to reach the target (the same parts(), scanned up from the crossbar
+        # height instead of down from the cap). Bold and heavier never come here.
+        tr = max(min(MW_OPEN * s, MW_OPEN_ABS), _heavy_target(s, 'W_RISE_FADE'))
+        xo7 = xo7_0; xo0 = xo7 + slant; yv = h
+        while yv < C / 2:
+            q = parts(xo0, xo7, yv)
+            if q is None: break
+            if q[3] >= tr:
+                return xo0, xo7, w, q[0], q[1], q[2], yv
+            yv += 0.25
     for step in range(0, 241):
         xo7 = xo7_0 + step * 0.5; xo0 = xo7 + slant
         p = parts(xo0, xo7, h)
