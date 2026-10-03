@@ -52,7 +52,7 @@ gfstage: build.stamp
 
 test: gfstage
 	which fontspector || (echo "fontspector not found. Please install it with 'cargo binstall fontspector'." && exit 1)
-	TOCHECK=$$(find out/gf/proxymono -name '*.ttf'); mkdir -p out/ out/fontspector; fontspector --profile googlefonts -l warn --full-lists --succinct --html out/fontspector/fontspector-report.html --ghmarkdown out/fontspector/fontspector-report.md --badges out/badges $$TOCHECK  || echo '::warning title=fontspector failures::The fontspector QA check reported errors in your font. Please check the generated report.'
+	TOCHECK="$$(find out/gf/proxymono -name '*.ttf') out/gf/proxymono/METADATA.pb"; mkdir -p out/ out/fontspector; fontspector --profile googlefonts -l warn --full-lists --succinct --html out/fontspector/fontspector-report.html --ghmarkdown out/fontspector/fontspector-report.md --badges out/badges $$TOCHECK  || echo '::warning title=fontspector failures::The fontspector QA check reported errors in your font. Please check the generated report.'
 
 proof: venv build.stamp
 	which diff3proof || (echo "diff3proof not found. Please install it with 'cargo binstall diffenator3'." && exit 1)
