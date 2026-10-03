@@ -42,9 +42,10 @@ Proxy Mono starts from three open-source monospaces and is rebuilt so that it re
 
 | Part | Taken from | What was changed |
 |---|---|---|
-| Most capitals | Space Mono | Ink traps removed; M, N and W rebuilt so every stroke is one stem and runs the full cap height; Q rebuilt as the O with a tail |
-| B, D, J, K, P, R and the Q's tail | Martian Mono | Refitted to the 700-unit cell and the shared stem |
+| Most capitals | Space Mono | Ink traps removed; M, N and W rebuilt so every stroke is one stem and runs the full cap height |
+| B, D, J, K, P, R | Martian Mono | Refitted to the 700-unit cell and the shared stem |
 | The zero | Built from the O | The O with a slash |
+| Q | Built from the O | The O with a new tail: one straight stroke, one stem thick, through the bowl's lower right and flush with its right side |
 | G | Built from the C | The C's bowl with a bar and a stem |
 | Lowercase, figures, punctuation and the capital Y | Geist Mono | Interpolated to the shared stem at each weight; accented letters composed; every glyph centred in its cell |
 
