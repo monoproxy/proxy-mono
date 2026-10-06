@@ -57,19 +57,41 @@ CODE = ['// Reject a request whose token has expired.', 'export function require
         '  req.user = { id: token.sub, ttl: token.exp - now };', '  next();', '}']
 KEYWORDS = ('export', 'function', 'const', 'if', 'return')
 
+def oklch(L, C, h):
+    """sRGB 0-255 from OKLCH, for the lab page's syntax palette."""
+    import math
+    a, b = C * math.cos(math.radians(h)), C * math.sin(math.radians(h))
+    l_, m_, s_ = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3, (L - 0.1055613458 * a - 0.0638541728 * b) ** 3, (L - 0.0894841775 * a - 1.2914855480 * b) ** 3
+    lin = (4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_, -1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_,
+           -0.0041960863 * l_ - 0.7034186147 * m_ + 1.7076147010 * s_)
+    g = lambda c: 12.92 * c if c <= 0.0031308 else 1.055 * c ** (1 / 2.4) - 0.055
+    return tuple(round(255 * min(1, max(0, g(c)))) for c in lin)
+
+# the lab page's "Syntax colour" palette (Vercel's Geist docs code blocks, dark)
+SYNTAX = {'c': (161, 161, 161), 'k': oklch(0.6936, 0.2223, 3.91), 's': oklch(0.731, 0.2158, 148.29),
+          'n': oklch(0.717, 0.1648, 250.794), 'f': oklch(0.6987, 0.2037, 309.51)}
+
+def tokens(line):
+    """[(class, text)]: comment, keyword, string, number, call, or plain ('')."""
+    import re
+    if line.lstrip().startswith('//'): return [('c', line)]
+    out = []
+    for m in re.finditer(r"'[^']*'|\d+|[A-Za-z_]\w*|.", line):
+        t = m.group(); nxt = line[m.end():m.end() + 1]
+        cls = ('s' if t[0] == "'" else 'n' if t.isdigit() else 'k' if t in KEYWORDS
+               else 'f' if (t[0].isalpha() or t[0] == '_') and nxt == '(' else '')
+        out.append((cls, t))
+    return out
+
 def code():
     im = Image.new('RGB', (1900, 910), PAPER); d = ImageDraw.Draw(im); size = 38; adv = size * 0.7
     for i, line in enumerate(CODE):
         y = 90 + 60 * i
         text(d, (92, y), str(i + 1), size, 400, (110, 110, 110), 'rs')
-        if line.startswith('//'): text(d, (147, y), line, size, 400, GREY); continue
-        x = 147; rest = line
-        while rest:                                   # keywords in Bold, the rest in Regular, on one grid
-            kw = next((k for k in KEYWORDS if rest.startswith(k) and not rest[len(k):len(k) + 1].isalnum()), None)
-            if kw and (x == 147 or line[int(round((x - 147) / adv)) - 1] == ' '):
-                text(d, (x, y), kw, size, 700); x += adv * len(kw); rest = rest[len(kw):]
-            else:
-                text(d, (x, y), rest[0], size, 400); x += adv; rest = rest[1:]
+        col = 0
+        for cls, t in tokens(line):                   # syntax colour on, one grid, all Regular
+            for ch in t:
+                text(d, (147 + adv * col, y), ch, size, 400, SYNTAX.get(cls, INK)); col += 1
     d.line([(40, 690), (1860, 690)], fill=(40, 40, 40), width=1)
     small = "0O 1lI| {}[]() != => <= -> :: ;, '\" `   for (let i = 0; i < l1.length; i++) {}"
     for px, y in ((11, 752), (13, 797), (16, 850)):

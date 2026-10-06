@@ -1,6 +1,6 @@
 """A-Z capitals preview fonts. Usage: az.py <stem> <out.ttf> [plain]
-Space Mono: A C E F H I L M N O S T U V W X Z   (G = Space Mono C + bar)
-Martian Mono: B D J K P Q R   Geist Mono: Y"""
+Space Mono: A C E F H I L M N O S T U V W X Z   (G = Space Mono C + bar, Q = Space Mono O + a drawn tail)
+Martian Mono: B D J K P R   Geist Mono: Y"""
 import sys, os, copy, math
 sys.path.insert(0, os.path.dirname(__file__))
 import quick900 as q
@@ -374,6 +374,8 @@ def zero_slash(O, stem):
     return [(round(xl), round(y(xl) + hv)), (round(xr), round(y(xr) + hv)), (round(xr), round(y(xr) - hv)), (round(xl), round(y(xl) - hv))]
 
 def q_tail(gl, src, O, stem, PLAIN):
+    """The Q tail, in final units, drawn as a TrueType outer contour over the O. Plain: plain_q_tail, a
+    straight stroke drawn from scratch. Inktrap (not shipped): Martian's tail re-hung under the O."""
     from shapely.geometry import Polygon as SP, LineString
     from fontTools.pens.basePen import BasePen
     c, e, _ = gl.getCoordinates(src['glyf'])
@@ -402,13 +404,38 @@ def q_tail(gl, src, O, stem, PLAIN):
     if not PLAIN:
         dy = obottom(xn) + 0.3 * stem - tail[1][1]
         return [(x, y + (dy if i in (1, 2) else 0)) for i, (x, y) in enumerate(tail)]
-    k = (y5 - y0) / (x5 - x0)
-    lift = stem * math.sqrt(1 + k * k)                       # vertical thickness for a one-stem stroke
-    yb = lambda x: y0 + k * (x - x0)
-    top = lambda x: yb(x) + lift
-    nub = max(obottom(x0), obottom(xn)) + 0.45 * stem        # inside the O's bottom stroke
-    pts = [(x0, yb(x0)), (x0, max(nub, top(x0))), (xn, max(nub, top(xn))), (xn, top(xn)), (x5, top(x5)), (x5, yb(x5))]
-    return pts
+    return plain_q_tail(O, stem, Flat, ring)
+
+def plain_q_tail(O, stem, Flat, ring):
+    """Plain Q tail (Danny, 3 Oct 2026): one straight stroke, one stem thick, at 52 degrees through the
+    bowl's lower right, with a square end. Its outer bottom corner sits on the bowl's right edge, so the
+    Q is no wider than the O. Thin to Regular: the tail's right edge runs as far into the counter as it
+    sticks out past the bowl, and its lowest corner is 81.5 below the baseline. Black: tuned by eye,
+    inside:outside 61:80 and the lowest corner at -72. Weights between blend the two by stem. Like the
+    zero's slash it is a separate clockwise contour over the O, so it fills where it crosses the counter
+    and keeps 4 points at every weight (the masters stay compatible)."""
+    from shapely.geometry import Polygon as SP, LineString
+    rings = []
+    for c in O[:2]:
+        ring.clear(); q.draw_ufo_contours([c], Flat(None), q.SC); rings.append(SP(list(ring)))
+    outer, counter = sorted(rings, key=lambda p: p.area, reverse=True)
+    t = min(1, max(0, (stem - 110) / (197 - 110)))           # 0 at Regular and lighter, 1 at Black
+    ratio, low = 1 + t * (61 / 80 - 1), -81.5 + t * 9.5
+    a = math.radians(52); d = (math.cos(a), -math.sin(a)); n = (math.sin(a), math.cos(a))
+    h = stem / 2
+    end = (outer.bounds[2] - h * n[0], low + h * n[1])         # centre of the square end
+    def parts(L):                                             # right edge: length in the counter, past the bowl
+        st = (end[0] - L * d[0] + h * n[0], end[1] - L * d[1] + h * n[1])
+        edge = LineString([st, (end[0] + h * n[0], end[1] + h * n[1])])
+        return edge.intersection(counter).length, edge.difference(outer).length
+    lo, hi = 50.0, 800.0
+    for _ in range(60):
+        L = (lo + hi) / 2; i, o = parts(L)
+        lo, hi = (L, hi) if i < ratio * o else (lo, L)
+    st = (end[0] - L * d[0], end[1] - L * d[1])
+    pts = [(st[0] + h * n[0], st[1] + h * n[1]), (end[0] + h * n[0], end[1] + h * n[1]),
+           (end[0] - h * n[0], end[1] - h * n[1]), (st[0] - h * n[0], st[1] - h * n[1])]
+    return [(round(x), round(y)) for x, y in pts]             # clockwise, like the O's outer contour
 
 OPTICAL = 0.25   # 0 = centre the ink's bounding box; 1 = centre its mass. A quarter toward the mass.
 
