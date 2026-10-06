@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="sixinferior" format="2">
+  <advance width="612"/>
+  <unicode hex="2086"/>
+  <guideline y="94"/>
+  <outline>
+    <component base="six.dnom" yOffset="-200"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.glyph.leftMetricsKey</key>
+      <string>six.dnom</string>
+      <key>com.schriftgestaltung.Glyphs.glyph.rightMetricsKey</key>
+      <string>six.dnom</string>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 01:18:41</string>
+    </dict>
+  </lib>
+</glyph>

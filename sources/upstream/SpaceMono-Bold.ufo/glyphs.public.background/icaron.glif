@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="icaron" format="2">
+  <outline>
+    <contour>
+      <point x="87" y="120" type="line"/>
+      <point x="87" y="0" type="line"/>
+      <point x="525" y="0" type="line"/>
+      <point x="525" y="120" type="line"/>
+      <point x="381" y="120" type="line"/>
+      <point x="381" y="496" type="line"/>
+      <point x="99" y="496" type="line"/>
+      <point x="99" y="376" type="line"/>
+      <point x="255" y="376" type="line"/>
+      <point x="255" y="120" type="line"/>
+    </contour>
+    <contour>
+      <point x="466" y="706" type="line"/>
+      <point x="345" y="706" type="line"/>
+      <point x="302" y="618" type="line"/>
+      <point x="290" y="618" type="line"/>
+      <point x="247" y="706" type="line"/>
+      <point x="126" y="706" type="line"/>
+      <point x="210" y="570" type="line"/>
+      <point x="382" y="570" type="line"/>
+    </contour>
+  </outline>
+</glyph>

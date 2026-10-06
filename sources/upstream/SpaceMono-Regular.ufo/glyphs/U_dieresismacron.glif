@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Udieresismacron" format="2">
+  <advance width="612"/>
+  <unicode hex="01D5"/>
+  <guideline x="306"/>
+  <guideline x="136"/>
+  <guideline x="476"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="551" y="10" name="ogonek"/>
+  <anchor x="309" y="969" name="top"/>
+  <anchor x="592" y="700" name="topright"/>
+  <anchor x="310" y="819" name="topabove"/>
+  <outline>
+    <component base="U"/>
+    <component base="dieresiscomb.case" xOffset="86" yOffset="-50"/>
+    <component base="macroncomb" xOffset="118" yOffset="333"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.ComponentInfo</key>
+      <array>
+        <dict>
+          <key>alignment</key>
+          <integer>-1</integer>
+          <key>index</key>
+          <integer>1</integer>
+          <key>name</key>
+          <string>dieresiscomb.case</string>
+        </dict>
+        <dict>
+          <key>anchor</key>
+          <string>topabove</string>
+          <key>index</key>
+          <integer>2</integer>
+          <key>name</key>
+          <string>macroncomb</string>
+        </dict>
+      </array>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 03:15:36</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

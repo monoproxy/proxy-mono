@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="iacute.ss02" format="2">
+  <outline>
+    <contour>
+      <point x="290" y="0" type="line"/>
+      <point x="368" y="0" type="line"/>
+      <point x="368" y="496" type="line"/>
+      <point x="120" y="496" type="line"/>
+      <point x="120" y="424" type="line"/>
+      <point x="290" y="424" type="line"/>
+    </contour>
+    <contour>
+      <point x="451" y="688" type="line"/>
+      <point x="361" y="688" type="line"/>
+      <point x="295" y="570" type="line"/>
+      <point x="367" y="570" type="line"/>
+    </contour>
+  </outline>
+</glyph>

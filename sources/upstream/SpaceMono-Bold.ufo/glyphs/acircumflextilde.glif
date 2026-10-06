@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="acircumflextilde" format="2">
+  <advance width="612"/>
+  <unicode hex="1EAB"/>
+  <guideline x="253"/>
+  <anchor x="282" y="0" name="bottom"/>
+  <anchor x="551" y="10" name="ogonek"/>
+  <anchor x="286" y="922" name="top"/>
+  <anchor x="286" y="658" name="topviet"/>
+  <outline>
+    <component base="a"/>
+    <component base="circumflexcomb" xOffset="66"/>
+    <component base="tildecomb" xOffset="36" yOffset="189"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 14:44:47</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

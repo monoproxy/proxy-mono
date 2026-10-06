@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="uni013D.base" format="2">
+  <advance width="700"/>
+  <outline>
+    <contour>
+      <point x="116" y="0" type="line"/>
+      <point x="116" y="801" type="line"/>
+      <point x="296" y="801" type="line"/>
+      <point x="296" y="173" type="line"/>
+      <point x="630" y="173" type="line"/>
+      <point x="630" y="0" type="line"/>
+    </contour>
+  </outline>
+</glyph>

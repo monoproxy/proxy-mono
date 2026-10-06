@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Zacute" format="2">
+  <advance width="612"/>
+  <unicode hex="0179"/>
+  <guideline y="774"/>
+  <guideline x="305"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="306" y="350" name="center"/>
+  <anchor x="396" y="869" name="top"/>
+  <outline>
+    <component base="Z"/>
+    <component base="acutecomb" xOffset="227" yOffset="204"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 15:02:48</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

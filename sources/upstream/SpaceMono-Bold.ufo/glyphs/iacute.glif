@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="iacute" format="2">
+  <advance width="612"/>
+  <unicode hex="00ED"/>
+  <guideline x="255"/>
+  <guideline x="381"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="525" y="10" name="ogonek"/>
+  <anchor x="370" y="684" name="top"/>
+  <outline>
+    <component base="idotless"/>
+    <component base="acutecomb" xOffset="113"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 15:02:48</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

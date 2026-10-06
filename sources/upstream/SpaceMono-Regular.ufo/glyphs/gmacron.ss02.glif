@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="gmacron.ss02" format="2">
+  <advance width="612"/>
+  <guideline x="305"/>
+  <guideline x="315"/>
+  <guideline x="113"/>
+  <guideline x="533"/>
+  <anchor x="306" y="-200" name="bottom"/>
+  <anchor x="306" y="636" name="top"/>
+  <outline>
+    <component base="g.ss02"/>
+    <component base="macroncomb" xOffset="115"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 02:47:14</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

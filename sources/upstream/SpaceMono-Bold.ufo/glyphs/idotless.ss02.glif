@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="idotless.ss02" format="2">
+  <advance width="612"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="427" y="10" name="ogonek"/>
+  <anchor x="336" y="496" name="top"/>
+  <outline>
+    <contour>
+      <point x="301" y="0" type="line"/>
+      <point x="427" y="0" type="line"/>
+      <point x="427" y="496" type="line"/>
+      <point x="127" y="496" type="line"/>
+      <point x="127" y="376" type="line"/>
+      <point x="301" y="376" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

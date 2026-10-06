@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Ytilde" format="2">
+  <outline>
+    <contour>
+      <point x="240" y="246" type="line"/>
+      <point x="240" y="0" type="line"/>
+      <point x="372" y="0" type="line"/>
+      <point x="372" y="246" type="line"/>
+      <point x="402" y="246" type="line"/>
+      <point x="603" y="700" type="line"/>
+      <point x="459" y="700" type="line"/>
+      <point x="315" y="366" type="line"/>
+      <point x="297" y="366" type="line"/>
+      <point x="153" y="700" type="line"/>
+      <point x="9" y="700" type="line"/>
+      <point x="210" y="246" type="line"/>
+    </contour>
+    <contour>
+      <point x="322" y="899" type="curve" smooth="yes"/>
+      <point x="299" y="926"/>
+      <point x="275" y="937"/>
+      <point x="248" y="937" type="curve" smooth="yes"/>
+      <point x="215" y="937"/>
+      <point x="187" y="925"/>
+      <point x="162" y="893" type="curve" smooth="yes"/>
+      <point x="106" y="821" type="line"/>
+      <point x="183" y="760" type="line"/>
+      <point x="213" y="798" type="line" smooth="yes"/>
+      <point x="224" y="812"/>
+      <point x="234" y="822"/>
+      <point x="252" y="822" type="curve" smooth="yes"/>
+      <point x="270" y="822"/>
+      <point x="280" y="810"/>
+      <point x="290" y="798" type="curve" smooth="yes"/>
+      <point x="313" y="771"/>
+      <point x="337" y="760"/>
+      <point x="364" y="760" type="curve" smooth="yes"/>
+      <point x="398" y="760"/>
+      <point x="426" y="773"/>
+      <point x="450" y="804" type="curve" smooth="yes"/>
+      <point x="506" y="876" type="line"/>
+      <point x="429" y="937" type="line"/>
+      <point x="399" y="899" type="line" smooth="yes"/>
+      <point x="388" y="885"/>
+      <point x="378" y="875"/>
+      <point x="360" y="875" type="curve" smooth="yes"/>
+      <point x="342" y="875"/>
+      <point x="332" y="887"/>
+    </contour>
+  </outline>
+</glyph>

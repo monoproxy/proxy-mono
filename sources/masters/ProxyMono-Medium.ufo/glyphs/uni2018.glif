@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="uni2018" format="2">
+  <advance width="700"/>
+  <unicode hex="2018"/>
+  <outline>
+    <contour>
+      <point x="425" y="800" type="line"/>
+      <point x="360" y="617" type="line"/>
+      <point x="428" y="617" type="line"/>
+      <point x="428" y="463" type="line"/>
+      <point x="271" y="463" type="line"/>
+      <point x="271" y="604" type="line"/>
+      <point x="342" y="800" type="line"/>
+    </contour>
+  </outline>
+</glyph>
