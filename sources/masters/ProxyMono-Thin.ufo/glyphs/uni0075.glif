@@ -21,9 +21,9 @@
       <point x="567" y="597" type="line"/>
       <point x="567" y="0" type="line"/>
       <point x="521" y="0" type="line"/>
-      <point x="521" y="80" type="line"/>
-      <point x="528" y="79" type="line"/>
-      <point x="519" y="35"/>
+      <point x="521" y="147" type="line"/>
+      <point x="528" y="146" type="line"/>
+      <point x="519" y="76"/>
       <point x="409" y="-14"/>
     </contour>
   </outline>

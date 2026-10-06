@@ -23,11 +23,14 @@ build.stamp: venv $(SOURCES)
 	rm -rf fonts; mkdir -p fonts/ttf fonts/webfonts
 	. venv/bin/activate; cd sources/generator && for w in $(WEIGHTS); do \
 	  python3 az.py $${w%%:*} ../../fonts/ttf/ProxyMono-$${w##*:}.ttf plain || exit 1; \
+	  python3 joins.py ../../fonts/ttf/ProxyMono-$${w##*:}.ttf ../../fonts/ttf/ProxyMono-$${w##*:}.ttf $${w%%:*} || exit 1; \
+	  python3 -c "from fontTools.ttLib import TTFont; f=TTFont('../../fonts/ttf/ProxyMono-$${w##*:}.ttf'); f.flavor='woff2'; f.save('../../fonts/ttf/ProxyMono-$${w##*:}.woff2')"; \
 	  mv ../../fonts/ttf/ProxyMono-$${w##*:}.woff2 ../../fonts/webfonts/; done
 	# variable font: masters built with VF=1 (point-compatible), then merged
 	mkdir -p fonts/variable build/masters
 	. venv/bin/activate; cd sources/generator && for w in $(WEIGHTS); do \
-	  VF=1 python3 az.py $${w%%:*} ../../build/masters/ProxyMono-$${w##*:}.ttf plain || exit 1; done && \
+	  VF=1 python3 az.py $${w%%:*} ../../build/masters/ProxyMono-$${w##*:}.ttf plain || exit 1; \
+	  python3 joins.py ../../build/masters/ProxyMono-$${w##*:}.ttf ../../build/masters/ProxyMono-$${w##*:}.ttf $${w%%:*} || exit 1; done && \
 	  python3 vf.py ../../build/masters "../../fonts/variable/ProxyMono[wght].ttf" && \
 	  mv "../../fonts/variable/ProxyMono[wght].woff2" ../../fonts/webfonts/
 	# the same masters with a slant axis (0 to 10 degrees, an oblique). Kept out of fonts/variable: it is

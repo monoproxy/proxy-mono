@@ -7,10 +7,10 @@
       <point x="119" y="0" type="line"/>
       <point x="119" y="597" type="line"/>
       <point x="187" y="597" type="line"/>
-      <point x="187" y="518" type="line"/>
-      <point x="179" y="524" type="line"/>
-      <point x="185" y="553"/>
-      <point x="245" y="591"/>
+      <point x="187" y="443" type="line"/>
+      <point x="179" y="449" type="line"/>
+      <point x="185" y="507"/>
+      <point x="245" y="568"/>
       <point x="333" y="611"/>
       <point x="382" y="611" type="qcurve" smooth="yes"/>
       <point x="450" y="611"/>
