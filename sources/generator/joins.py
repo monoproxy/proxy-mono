@@ -7,7 +7,7 @@ counter and leave a hairline. Only on-curve notch points and the arch's first of
 lower their second off-curve by 0.3 x the cut, or the arch top goes flat), so masters stay point-compatible.
 Danny approved this 6 Oct 2026 (n/h 30% variant). m at 700-900 and r at 800-900 stop short of the target:
 their counters are too narrow to cut further without redrawing."""
-import sys
+import sys, math
 import numpy as np
 from fontTools.ttLib import TTFont
 from fontTools.pens.basePen import BasePen
@@ -19,6 +19,12 @@ GEIST = {100: .587, 200: .510, 300: .472, 400: .475, 500: .439, 600: .418, 700: 
 # notch on-curve points, arch off-curve, direction (-1 cut down from the top, +1 up from the baseline)
 SPEC = {'m': ([3, 4], 5, -1), 'n': ([3, 4], 5, -1), 'h': ([3, 4], 5, -1), 'r': ([9, 10], 11, -1), 'u': ([17, 18], 19, +1)}
 ROUND = {'n': 0.3, 'h': 0.3}
+# light weights cut deeper than Geist (Danny, 6 Oct 2026: "the connecting bit still needs to be thinner" at
+# 100-400; 70% picked), easing back to Geist's ratio by 600
+SCALE = {100: .70, 200: .70, 300: .70, 400: .70, 500: .85}
+# where SCALE applies, n and h get a new outer arch: one smooth quarter curve from the cut on the stem edge
+# to the arch top, so the deeper cut leaves no hump where the arch leaves the stem
+SMOOTH = {'n', 'h'}
 
 
 class _Flat(BasePen):
@@ -55,11 +61,15 @@ def probes(ch, c):
     return ((c[1][0] + c[2][0]) / 2, 150), (apex, top - 15)
 
 
-def cut(c0, ch, d):
+def cut(c0, ch, d, smooth=False):
     idx, off, s = SPEC[ch]; c = list(c0)
     for i in idx: c[i] = (c[i][0], c[i][1] + s * d)
     c[off] = (c[off][0], round(c[off][1] + s * d * 80 / 130))
     if ch in ROUND: c[6] = (c[6][0], round(c[6][1] + s * d * ROUND[ch]))
+    if smooth and ch in SMOOTH:
+        e = c0[2][0]; y = c[4][1]; x8, top = c0[8]; c[3] = c[4] = (e, y); k = 1 / math.cos(math.radians(15))
+        for i, th in zip((5, 6, 7), (165, 135, 105)):
+            t = math.radians(th); c[i] = (round(x8 + (x8 - e) * k * math.cos(t)), round(y + (top - y) * k * math.sin(t)))
     return c
 
 
@@ -69,7 +79,7 @@ STEM2W = {46: 100, 68: 200, 96: 300, 110: 400, 126: 500, 144: 600, 162: 700, 180
 def main(src, out, w):
     w = STEM2W.get(w, w)
     f = TTFont(src); f.flavor = None; cm = f.getBestCmap(); gl = f['glyf']
-    cn = gl[cm[ord('n')]].getCoordinates(gl)[0]; target = GEIST[w] * (cn[2][0] - cn[1][0])
+    cn = gl[cm[ord('n')]].getCoordinates(gl)[0]; target = GEIST[w] * SCALE.get(w, 1) * (cn[2][0] - cn[1][0]); smooth = w in SCALE
     for ch in SPEC:
         g = cm[ord(ch)]; c0 = list(gl[g].getCoordinates(gl)[0])
         idx, off, _ = SPEC[ch]
@@ -78,7 +88,7 @@ def main(src, out, w):
         a, b = probes(ch, c0)
         def setd(d):
             cc = gl[g].getCoordinates(gl)[0]
-            for i, p in enumerate(cut(c0, ch, d)): cc[i] = p
+            for i, p in enumerate(cut(c0, ch, d, smooth)): cc[i] = p
             pl = poly(f, g); return pl, neck(pl, a, b)
         _, n0 = setd(0); best = 0
         if n0 > target:
