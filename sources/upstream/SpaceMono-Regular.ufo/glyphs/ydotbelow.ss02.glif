@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="ydotbelow.ss02" format="2">
+  <advance width="612"/>
+  <anchor x="484" y="-204" name="bottom"/>
+  <anchor x="306" y="496" name="top"/>
+  <outline>
+    <component base="y.ss02"/>
+    <component base="dotbelowcomb" xOffset="178"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.ComponentInfo</key>
+      <array>
+        <dict>
+          <key>alignment</key>
+          <integer>-1</integer>
+          <key>index</key>
+          <integer>0</integer>
+          <key>name</key>
+          <string>y.ss02</string>
+        </dict>
+      </array>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 02:44:02</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

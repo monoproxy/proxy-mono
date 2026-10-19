@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Rdotbelowmacron" format="2">
+  <advance width="612"/>
+  <unicode hex="1E5C"/>
+  <guideline x="317"/>
+  <guideline x="73"/>
+  <guideline x="205"/>
+  <guideline x="139"/>
+  <guideline x="308"/>
+  <anchor x="306" y="-254" name="bottom"/>
+  <anchor x="292" y="876" name="top"/>
+  <outline>
+    <component base="R"/>
+    <component base="dotbelowcomb" xOffset="161"/>
+    <component base="macroncomb" xOffset="95" yOffset="204"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 02:44:02</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

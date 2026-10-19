@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="uhorngrave" format="2">
+  <advance width="612"/>
+  <unicode hex="1EEB"/>
+  <guideline x="144"/>
+  <guideline x="276"/>
+  <anchor x="209" y="0" name="bottom"/>
+  <anchor x="170" y="706" name="top"/>
+  <outline>
+    <component base="uhorn"/>
+    <component base="gravecomb" xOffset="27"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 03:02:17</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

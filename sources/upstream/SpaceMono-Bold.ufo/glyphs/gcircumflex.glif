@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="gcircumflex" format="2">
+  <advance width="612"/>
+  <unicode hex="011D"/>
+  <guideline x="264"/>
+  <anchor x="306" y="-200" name="bottom"/>
+  <anchor x="267" y="685" name="top"/>
+  <anchor x="267" y="658" name="topviet"/>
+  <outline>
+    <component base="g"/>
+    <component base="circumflexcomb" xOffset="47"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 02:31:04</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

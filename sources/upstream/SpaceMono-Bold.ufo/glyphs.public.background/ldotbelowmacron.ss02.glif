@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="ldotbelowmacron.ss02" format="2">
+  <outline>
+    <contour>
+      <point x="380" y="774" type="line"/>
+      <point x="380" y="876" type="line"/>
+      <point x="80" y="876" type="line"/>
+      <point x="80" y="774" type="line"/>
+    </contour>
+    <contour>
+      <point x="254" y="0" type="line"/>
+      <point x="380" y="0" type="line"/>
+      <point x="380" y="700" type="line"/>
+      <point x="80" y="700" type="line"/>
+      <point x="80" y="580" type="line"/>
+      <point x="254" y="580" type="line"/>
+    </contour>
+  </outline>
+</glyph>

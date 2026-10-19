@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="isuperior" format="2">
+  <advance width="612"/>
+  <unicode hex="2071"/>
+  <guideline y="412"/>
+  <guideline x="319"/>
+  <outline>
+    <contour>
+      <point x="196" y="412" type="line"/>
+      <point x="436" y="412" type="line"/>
+      <point x="436" y="460" type="line"/>
+      <point x="346" y="460" type="line"/>
+      <point x="346" y="700" type="line"/>
+      <point x="204" y="700" type="line"/>
+      <point x="204" y="652" type="line"/>
+      <point x="292" y="652" type="line"/>
+      <point x="292" y="460" type="line"/>
+      <point x="196" y="460" type="line"/>
+    </contour>
+    <contour>
+      <point x="319" y="740" type="curve" smooth="yes"/>
+      <point x="344" y="740"/>
+      <point x="364" y="760"/>
+      <point x="364" y="785" type="curve" smooth="yes"/>
+      <point x="364" y="810"/>
+      <point x="344" y="830"/>
+      <point x="319" y="830" type="curve" smooth="yes"/>
+      <point x="294" y="830"/>
+      <point x="274" y="810"/>
+      <point x="274" y="785" type="curve" smooth="yes"/>
+      <point x="274" y="760"/>
+      <point x="294" y="740"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+    </dict>
+  </lib>
+</glyph>

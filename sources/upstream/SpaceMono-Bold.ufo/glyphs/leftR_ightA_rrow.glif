@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="leftRightArrow" format="2">
+  <advance width="612"/>
+  <unicode hex="2194"/>
+  <outline>
+    <contour>
+      <point x="169" y="94" type="line"/>
+      <point x="250" y="175" type="line"/>
+      <point x="153" y="272" type="line"/>
+      <point x="84" y="300" type="line"/>
+      <point x="91" y="317" type="line"/>
+      <point x="153" y="293" type="line"/>
+      <point x="459" y="293" type="line"/>
+      <point x="521" y="317" type="line"/>
+      <point x="528" y="300" type="line"/>
+      <point x="459" y="272" type="line"/>
+      <point x="362" y="175" type="line"/>
+      <point x="443" y="94" type="line"/>
+      <point x="600" y="250" type="line"/>
+      <point x="600" y="450" type="line"/>
+      <point x="443" y="606" type="line"/>
+      <point x="362" y="525" type="line"/>
+      <point x="459" y="428" type="line"/>
+      <point x="528" y="400" type="line"/>
+      <point x="521" y="383" type="line"/>
+      <point x="459" y="407" type="line"/>
+      <point x="153" y="407" type="line"/>
+      <point x="91" y="383" type="line"/>
+      <point x="84" y="400" type="line"/>
+      <point x="153" y="428" type="line"/>
+      <point x="250" y="525" type="line"/>
+      <point x="169" y="606" type="line"/>
+      <point x="12" y="450" type="line"/>
+      <point x="12" y="250" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+    </dict>
+  </lib>
+</glyph>

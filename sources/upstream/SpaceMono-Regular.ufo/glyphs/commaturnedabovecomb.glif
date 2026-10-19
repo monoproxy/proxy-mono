@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="commaturnedabovecomb" format="2">
+  <unicode hex="0312"/>
+  <anchor x="294" y="496" name="_top"/>
+  <anchor x="294" y="820" name="top"/>
+  <outline>
+    <contour>
+      <point x="294" y="574" type="curve" smooth="yes"/>
+      <point x="332" y="574"/>
+      <point x="364" y="606"/>
+      <point x="364" y="644" type="curve" smooth="yes"/>
+      <point x="364" y="682"/>
+      <point x="332" y="714"/>
+      <point x="295" y="714" type="curve" smooth="yes"/>
+      <point x="289" y="714"/>
+      <point x="283" y="713"/>
+      <point x="278" y="711" type="curve"/>
+      <point x="278" y="736" type="line" smooth="yes"/>
+      <point x="278" y="755"/>
+      <point x="286" y="766"/>
+      <point x="305" y="766" type="curve" smooth="yes"/>
+      <point x="352" y="766" type="line"/>
+      <point x="352" y="820" type="line"/>
+      <point x="301" y="820" type="line" smooth="yes"/>
+      <point x="256" y="820"/>
+      <point x="224" y="787"/>
+      <point x="224" y="742" type="curve" smooth="yes"/>
+      <point x="224" y="644" type="line" smooth="yes"/>
+      <point x="224" y="606"/>
+      <point x="256" y="574"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 14:25:30</string>
+      <key>com.schriftgestaltung.Glyphs.originalWidth</key>
+      <integer>612</integer>
+    </dict>
+  </lib>
+</glyph>

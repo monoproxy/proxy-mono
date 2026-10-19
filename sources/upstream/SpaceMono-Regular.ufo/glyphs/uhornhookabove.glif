@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="uhornhookabove" format="2">
+  <advance width="612"/>
+  <unicode hex="1EED"/>
+  <guideline x="226"/>
+  <anchor x="226" y="0" name="bottom"/>
+  <anchor x="257" y="758" name="top"/>
+  <outline>
+    <component base="uhorn"/>
+    <component base="hookabovecomb" xOffset="-49"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 02:34:06</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

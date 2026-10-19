@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="acute" format="2">
+  <advance width="612"/>
+  <unicode hex="00B4"/>
+  <anchor x="257" y="496" name="_top"/>
+  <anchor x="347" y="665" name="top"/>
+  <outline>
+    <component base="acutecomb" xOffset="178"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 15:07:14</string>
+    </dict>
+  </lib>
+</glyph>

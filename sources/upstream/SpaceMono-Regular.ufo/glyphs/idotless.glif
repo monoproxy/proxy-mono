@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="idotless" format="2">
+  <advance width="612"/>
+  <unicode hex="0131"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="513" y="10" name="ogonek"/>
+  <anchor x="289" y="496" name="top"/>
+  <outline>
+    <contour>
+      <point x="99" y="0" type="line"/>
+      <point x="513" y="0" type="line"/>
+      <point x="513" y="72" type="line"/>
+      <point x="351" y="72" type="line"/>
+      <point x="351" y="496" type="line"/>
+      <point x="117" y="496" type="line"/>
+      <point x="117" y="424" type="line"/>
+      <point x="273" y="424" type="line"/>
+      <point x="273" y="72" type="line"/>
+      <point x="99" y="72" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

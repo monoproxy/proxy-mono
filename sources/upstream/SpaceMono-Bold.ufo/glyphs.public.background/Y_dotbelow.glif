@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Ydotbelow" format="2">
+  <outline>
+    <contour>
+      <point x="240" y="246" type="line"/>
+      <point x="240" y="0" type="line"/>
+      <point x="372" y="0" type="line"/>
+      <point x="372" y="246" type="line"/>
+      <point x="402" y="246" type="line"/>
+      <point x="603" y="700" type="line"/>
+      <point x="459" y="700" type="line"/>
+      <point x="315" y="366" type="line"/>
+      <point x="297" y="366" type="line"/>
+      <point x="153" y="700" type="line"/>
+      <point x="9" y="700" type="line"/>
+      <point x="210" y="246" type="line"/>
+    </contour>
+    <contour>
+      <point x="401" y="-159" type="curve" smooth="yes"/>
+      <point x="401" y="-106"/>
+      <point x="358" y="-64"/>
+      <point x="306" y="-64" type="curve" smooth="yes"/>
+      <point x="254" y="-64"/>
+      <point x="211" y="-106"/>
+      <point x="211" y="-159" type="curve" smooth="yes"/>
+      <point x="211" y="-212"/>
+      <point x="254" y="-254"/>
+      <point x="306" y="-254" type="curve" smooth="yes"/>
+      <point x="358" y="-254"/>
+      <point x="401" y="-212"/>
+    </contour>
+  </outline>
+</glyph>

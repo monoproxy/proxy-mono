@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Udieresisgrave" format="2">
+  <advance width="612"/>
+  <unicode hex="01DB"/>
+  <guideline y="926"/>
+  <guideline x="306"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="551" y="10" name="ogonek"/>
+  <anchor x="263" y="1079" name="top"/>
+  <anchor x="592" y="700" name="topright"/>
+  <anchor x="307" y="899" name="topabove"/>
+  <outline>
+    <component base="U"/>
+    <component base="dieresiscomb.case" xOffset="42" yOffset="-10"/>
+    <component base="gravecomb" xOffset="120" yOffset="373"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.ComponentInfo</key>
+      <array>
+        <dict>
+          <key>alignment</key>
+          <integer>-1</integer>
+          <key>index</key>
+          <integer>1</integer>
+          <key>name</key>
+          <string>dieresiscomb.case</string>
+        </dict>
+      </array>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 03:14:53</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

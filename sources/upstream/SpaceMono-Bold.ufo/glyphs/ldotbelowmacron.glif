@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="ldotbelowmacron" format="2">
+  <advance width="612"/>
+  <unicode hex="1E39"/>
+  <guideline x="81"/>
+  <guideline x="375"/>
+  <guideline x="249"/>
+  <guideline x="313"/>
+  <anchor x="306" y="-254" name="bottom"/>
+  <anchor x="306" y="248" name="center"/>
+  <anchor x="226" y="876" name="top"/>
+  <anchor x="398" y="700" name="topright"/>
+  <outline>
+    <component base="l"/>
+    <component base="dotbelowcomb" xOffset="161"/>
+    <component base="macroncomb" xOffset="29" yOffset="204"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.ComponentInfo</key>
+      <array>
+        <dict>
+          <key>alignment</key>
+          <integer>-1</integer>
+          <key>index</key>
+          <integer>2</integer>
+          <key>name</key>
+          <string>macroncomb</string>
+        </dict>
+      </array>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 14:45:41</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

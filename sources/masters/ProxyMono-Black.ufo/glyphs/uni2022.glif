@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="uni2022" format="2">
+  <advance width="700"/>
+  <unicode hex="2022"/>
+  <outline>
+    <contour>
+      <point x="350" y="155" type="qcurve" smooth="yes"/>
+      <point x="298" y="155"/>
+      <point x="217" y="202"/>
+      <point x="169" y="283"/>
+      <point x="169" y="335" type="qcurve" smooth="yes"/>
+      <point x="169" y="385"/>
+      <point x="217" y="463"/>
+      <point x="298" y="509"/>
+      <point x="350" y="509" type="qcurve" smooth="yes"/>
+      <point x="402" y="509"/>
+      <point x="483" y="463"/>
+      <point x="531" y="385"/>
+      <point x="531" y="335" type="qcurve" smooth="yes"/>
+      <point x="531" y="283"/>
+      <point x="483" y="202"/>
+      <point x="402" y="155"/>
+    </contour>
+  </outline>
+</glyph>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="ohorntilde" format="2">
+  <advance width="612"/>
+  <unicode hex="1EE1"/>
+  <guideline x="221"/>
+  <anchor x="223" y="0" name="bottom"/>
+  <anchor x="224" y="733" name="top"/>
+  <outline>
+    <component base="ohorn"/>
+    <component base="tildecomb" xOffset="-26"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 03:02:23</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

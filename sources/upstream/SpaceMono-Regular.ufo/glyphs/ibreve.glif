@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="ibreve" format="2">
+  <advance width="612"/>
+  <unicode hex="012D"/>
+  <guideline x="273"/>
+  <guideline x="311"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="513" y="10" name="ogonek"/>
+  <anchor x="293" y="663" name="top"/>
+  <outline>
+    <component base="idotless"/>
+    <component base="brevecomb" xOffset="131"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 16:20:38</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

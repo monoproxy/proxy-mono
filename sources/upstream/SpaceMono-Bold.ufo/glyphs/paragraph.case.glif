@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="paragraph.case" format="2">
+  <advance width="612"/>
+  <outline>
+    <contour>
+      <point x="276" y="0" type="line"/>
+      <point x="384" y="0" type="line"/>
+      <point x="384" y="598" type="line"/>
+      <point x="426" y="598" type="line"/>
+      <point x="426" y="0" type="line"/>
+      <point x="534" y="0" type="line"/>
+      <point x="534" y="700" type="line"/>
+      <point x="276" y="700" type="line" smooth="yes"/>
+      <point x="140" y="700"/>
+      <point x="58" y="608"/>
+      <point x="58" y="498" type="curve" smooth="yes"/>
+      <point x="58" y="486" type="line" smooth="yes"/>
+      <point x="58" y="376"/>
+      <point x="138" y="284"/>
+      <point x="270" y="284" type="curve" smooth="yes"/>
+      <point x="276" y="284" type="line"/>
+    </contour>
+    <contour>
+      <point x="264" y="386" type="line" smooth="yes"/>
+      <point x="216" y="386"/>
+      <point x="166" y="420"/>
+      <point x="166" y="489" type="curve"/>
+      <point x="166" y="495" type="line"/>
+      <point x="166" y="564"/>
+      <point x="216" y="598"/>
+      <point x="264" y="598" type="curve" smooth="yes"/>
+      <point x="276" y="598" type="line"/>
+      <point x="276" y="386" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 13:13:39</string>
+    </dict>
+  </lib>
+</glyph>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="vturned" format="2">
+  <outline>
+    <contour>
+      <point x="43" y="0" type="line"/>
+      <point x="179" y="0" type="line"/>
+      <point x="296" y="436" type="line"/>
+      <point x="314" y="436" type="line"/>
+      <point x="431" y="0" type="line"/>
+      <point x="567" y="0" type="line"/>
+      <point x="425" y="496" type="line"/>
+      <point x="185" y="496" type="line"/>
+    </contour>
+  </outline>
+</glyph>

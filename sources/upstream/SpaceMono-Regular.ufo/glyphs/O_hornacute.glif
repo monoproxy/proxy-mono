@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Ohornacute" format="2">
+  <advance width="612"/>
+  <unicode hex="1EDA"/>
+  <guideline y="774"/>
+  <guideline x="252"/>
+  <anchor x="243" y="0" name="bottom"/>
+  <anchor x="332" y="869" name="top"/>
+  <outline>
+    <component base="Ohorn"/>
+    <component base="acutecomb" xOffset="163" yOffset="204"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 15:02:48</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="rdotbelow" format="2">
+  <advance width="612"/>
+  <unicode hex="1E5B"/>
+  <guideline x="140"/>
+  <guideline x="266"/>
+  <guideline x="203"/>
+  <anchor x="211" y="-254" name="bottom"/>
+  <anchor x="331" y="496" name="top"/>
+  <outline>
+    <component base="r"/>
+    <component base="dotbelowcomb" xOffset="66"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 02:44:02</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

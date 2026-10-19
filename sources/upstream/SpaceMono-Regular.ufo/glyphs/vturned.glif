@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="vturned" format="2">
+  <advance width="612"/>
+  <unicode hex="028C"/>
+  <anchor x="304.0" y="496.0" name="top"/>
+  <anchor x="304.0" y="0.0" name="bottom"/>
+  <outline>
+    <component base="v" xScale="-1.0" yScale="-1.0" xOffset="610.0" yOffset="496.0"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.ComponentInfo</key>
+      <array>
+        <dict>
+          <key>alignment</key>
+          <integer>-1</integer>
+          <key>index</key>
+          <integer>0</integer>
+          <key>name</key>
+          <string>v</string>
+        </dict>
+      </array>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 00:25:53</string>
+    </dict>
+  </lib>
+</glyph>

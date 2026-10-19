@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="dagger.case" format="2">
+  <outline>
+    <contour>
+      <point x="96" y="510" type="line"/>
+      <point x="96" y="438" type="line"/>
+      <point x="271" y="438" type="line"/>
+      <point x="271" y="0" type="line"/>
+      <point x="343" y="0" type="line"/>
+      <point x="343" y="438" type="line"/>
+      <point x="516" y="438" type="line"/>
+      <point x="516" y="510" type="line"/>
+      <point x="343" y="510" type="line"/>
+      <point x="343" y="700" type="line"/>
+      <point x="271" y="700" type="line"/>
+      <point x="271" y="510" type="line"/>
+    </contour>
+  </outline>
+</glyph>

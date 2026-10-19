@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="itilde.ss02" format="2">
+  <advance width="612"/>
+  <guideline x="120"/>
+  <guideline x="368"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="368" y="10" name="ogonek"/>
+  <anchor x="302" y="700" name="top"/>
+  <outline>
+    <component base="idotless.ss02"/>
+    <component base="tildecomb" xOffset="81"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 15:39:45</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="imacron" format="2">
+  <advance width="612"/>
+  <unicode hex="012B"/>
+  <guideline x="117"/>
+  <guideline x="351"/>
+  <anchor x="306" y="0" name="bottom"/>
+  <anchor x="513" y="10" name="ogonek"/>
+  <anchor x="239" y="636" name="top"/>
+  <outline>
+    <component base="idotless"/>
+    <component base="macroncomb" xOffset="48"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.ComponentInfo</key>
+      <array>
+        <dict>
+          <key>alignment</key>
+          <integer>-1</integer>
+          <key>index</key>
+          <integer>1</integer>
+          <key>name</key>
+          <string>macroncomb</string>
+        </dict>
+      </array>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 16:20:08</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>

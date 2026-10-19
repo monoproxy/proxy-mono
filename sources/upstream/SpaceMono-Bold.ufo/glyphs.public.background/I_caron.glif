@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="Icaron" format="2">
+  <outline>
+    <contour>
+      <point x="72" y="700" type="line"/>
+      <point x="72" y="574" type="line"/>
+      <point x="240" y="574" type="line"/>
+      <point x="240" y="126" type="line"/>
+      <point x="72" y="126" type="line"/>
+      <point x="72" y="0" type="line"/>
+      <point x="540" y="0" type="line"/>
+      <point x="540" y="126" type="line"/>
+      <point x="372" y="126" type="line"/>
+      <point x="372" y="574" type="line"/>
+      <point x="540" y="574" type="line"/>
+      <point x="540" y="700" type="line"/>
+    </contour>
+    <contour>
+      <point x="476" y="910" type="line"/>
+      <point x="355" y="910" type="line"/>
+      <point x="312" y="822" type="line"/>
+      <point x="300" y="822" type="line"/>
+      <point x="257" y="910" type="line"/>
+      <point x="136" y="910" type="line"/>
+      <point x="220" y="774" type="line"/>
+      <point x="392" y="774" type="line"/>
+    </contour>
+  </outline>
+</glyph>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="dieresiscomb.case" format="2">
+  <guideline x="-14" y="738" angle="0"/>
+  <anchor x="264" y="700" name="_top"/>
+  <anchor x="264" y="879" name="top"/>
+  <anchor x="265" y="909" name="topabove"/>
+  <outline>
+    <component base="dieresiscomb" yOffset="208"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2025/01/15 14:27:50</string>
+      <key>com.schriftgestaltung.Glyphs.originalWidth</key>
+      <integer>612</integer>
+    </dict>
+  </lib>
+</glyph>

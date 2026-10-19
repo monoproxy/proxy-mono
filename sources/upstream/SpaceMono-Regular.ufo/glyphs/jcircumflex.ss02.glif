@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="jcircumflex.ss02" format="2">
+  <advance width="612"/>
+  <guideline x="273"/>
+  <guideline x="339"/>
+  <guideline x="417"/>
+  <anchor x="306" y="-200" name="bottom"/>
+  <anchor x="377" y="658" name="top"/>
+  <anchor x="373" y="658" name="topviet"/>
+  <outline>
+    <component base="jdotless.ss02"/>
+    <component base="circumflexcomb" xOffset="67"/>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.schriftgestaltung.Glyphs.lastChange</key>
+      <string>2024/08/29 16:43:38</string>
+      <key>public.markColor</key>
+      <string>0.67,0.95,0.38,1</string>
+    </dict>
+  </lib>
+</glyph>
